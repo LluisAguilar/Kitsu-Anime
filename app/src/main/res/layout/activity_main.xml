@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context=".ui.activities.MainMenuActivity">
+
+    <com.google.android.material.tabs.TabLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/myflights_tabs"
+        android:background="@color/colorPrimaryDark"
+        android:elevation="5dp"
+        android:minHeight="?attr/actionBarSize"
+        app:tabMode="fixed"
+        app:tabGravity="fill"
+        app:tabTextAppearance="@style/MyCustomTabText"
+        app:tabTextColor="@color/white_low"
+        app:tabSelectedTextColor="@color/white"
+        app:tabIndicatorColor="@color/colorAccent"
+        />
+
+    <androidx.viewpager.widget.ViewPager
+        android:id="@+id/menu_viewpager"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        />
+
+</LinearLayout>

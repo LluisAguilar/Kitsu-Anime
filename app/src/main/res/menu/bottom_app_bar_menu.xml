@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <item android:id="@+id/bottom_app_home"
+        android:title=""
+        android:icon="@drawable/ic_launcher_foreground"
+        app:showAsAction="always"
+        android:iconTint="@color/colorAccentLight"
+        />
+
+    <item
+        android:title=""
+        android:id="@+id/bottom_app_transactions"
+        android:icon="@drawable/ic_launcher_foreground"
+        app:showAsAction="always"
+        android:iconTint="@color/colorAccent"
+        />
+
+    <item
+        android:title=""
+        android:id="@+id/bottom_app_history"
+        android:icon="@drawable/ic_launcher_foreground"
+        app:showAsAction="always"
+        android:iconTint="@color/colorAccent"
+        />
+
+</menu>
