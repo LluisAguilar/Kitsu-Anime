@@ -5,4 +5,12 @@
     <string name="anime">Anime</string>
     <string name="manga">Manga</string>
     <string name="favorites">Favorites</string>
+    <string name="closing_icon">closing_icon</string>
+    <string name="trending_anime">Trending anime</string>
+    <string name="on_air_anime">On air anime</string>
+    <string name="anime_by_categories">Anime by categories</string>
+    <string name="anime_streamers">Anime streamers</string>
+    <string name="article_poster_image">Article poster image</string>
+    <string name="shadow_imageview">Shadow imageview</string>
+    <string name="background_image_shadow">Background image shadow</string>
 </resources>

@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <dimen name="main_margin_top">20dp</dimen>
+    <dimen name="main_text_title_start_margin">20dp</dimen>
+    <dimen name="top_margin_articles_separation">10dp</dimen>
+    <dimen name="article_text_title_margin">5dp</dimen>
+    <dimen name="main_article_text_title_size">14sp</dimen>
+    <dimen name="item_article_cardview_width">120dp</dimen>
+    <dimen name="item_article_cardview_height">160dp</dimen>
+    <dimen name="articles_title_menu_text_size">20sp</dimen>
+    <dimen name="item_categories_cardview_height">100dp</dimen>
+    <dimen name="item_categories_cardview_width">180dp</dimen>
+    <dimen name="main_category_text_size">25sp</dimen>
+</resources>

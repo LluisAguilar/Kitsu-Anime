@@ -1,14 +1,130 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:background="@color/colorPrimaryDark"
     tools:context=".ui.fragments.AnimeFragment">
 
-    <!-- TODO: Update blank fragment layout -->
-    <TextView
+    <ScrollView
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:text="@string/hello_blank_fragment" />
+        android:layout_height="wrap_content"
+        >
 
-</FrameLayout>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+
+        <LinearLayout
+            android:id="@+id/trending_anime_layout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/main_margin_top"
+            android:orientation="vertical">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/trending_anime"
+                android:textSize="@dimen/articles_title_menu_text_size"
+                android:textColor="@color/white"
+                android:layout_marginStart="@dimen/main_text_title_start_margin"
+                />
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/trending_anime_recycler"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+                tools:listitem="@layout/item_anime" />
+
+
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/on_air_layout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/top_margin_articles_separation"
+            android:orientation="vertical">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/on_air_anime"
+                android:textSize="@dimen/articles_title_menu_text_size"
+                android:textColor="@color/white"
+                android:layout_marginStart="@dimen/main_text_title_start_margin"
+                />
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/on_air_anime_recycler"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+                tools:listitem="@layout/item_anime" />
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/categories_layout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/top_margin_articles_separation"
+            android:orientation="vertical">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/anime_by_categories"
+                android:textSize="@dimen/articles_title_menu_text_size"
+                android:textColor="@color/white"
+                android:layout_marginStart="@dimen/main_text_title_start_margin"
+                />
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/categories_anime_recycler"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+                tools:listitem="@layout/item_anime" />
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/streamers_layout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/top_margin_articles_separation"
+            android:layout_marginBottom="@dimen/top_margin_articles_separation"
+            android:orientation="vertical">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/anime_streamers"
+                android:textSize="@dimen/articles_title_menu_text_size"
+                android:textColor="@color/white"
+                android:layout_marginStart="@dimen/main_text_title_start_margin"
+                />
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/streamers_anime_recycler"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+                tools:listitem="@layout/item_anime" />
+
+        </LinearLayout>
+
+
+    </LinearLayout>
+    </ScrollView>
+</LinearLayout>

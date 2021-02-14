@@ -15,4 +15,12 @@
         <item name="textAllCaps">false</item>
     </style>
 
+    <style name="Theme_Dialog_Translucent" parent="android:Theme.DeviceDefault.Light.Dialog">
+        <item name="android:windowBackground">@android:color/transparent</item>
+    </style>
+
+    <style name="CircularProgress" parent="Theme.AppCompat.Light">
+        <item name="colorAccent">@color/colorPrimary</item>
+    </style>
+
 </resources>

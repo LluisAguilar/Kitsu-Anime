@@ -11,10 +11,11 @@ import java.util.*
 
 class MenuPagerAdapter(manager: FragmentManager, private val mContext: Context) : FragmentPagerAdapter(manager, BEHAVIOR_RESUME_ONLY_CURRENT_FRAGMENT){
 
+    val animeFragment = AnimeFragment.getInstance()
+    val mangaFragment = MangaFragment.getInstance()
+    val favoritesFragment = FavoritesFragment.getInstance()
+
     override fun getItem(position: Int): Fragment {
-        val animeFragment = AnimeFragment.getInstance()
-        val mangaFragment = MangaFragment.getInstance()
-        val favoritesFragment = FavoritesFragment.getInstance()
         var fragment = Fragment()
         if (position == 0) {
             fragment = animeFragment
