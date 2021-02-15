@@ -1,0 +1,314 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/colorPrimaryDark"
+    android:orientation="vertical"
+    android:paddingStart="0dp"
+    android:paddingEnd="@dimen/detail_article_margin"
+    tools:context=".ui.activities.ArticleDetailActivity">
+
+    <ImageView
+        android:id="@+id/detail_back_arrow"
+        android:layout_width="@dimen/arrow_back_width"
+        android:layout_height="@dimen/arrow_back_height"
+        android:src="@drawable/ic_next_arrow"
+        android:layout_marginStart="@dimen/detail_article_margin"
+        android:contentDescription="@string/back_to_menu"
+        android:rotation="180"
+        />
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <androidx.cardview.widget.CardView
+                    android:id="@+id/article_detail_cv"
+                    android:layout_width="@dimen/item_article_cardview_width"
+                    android:layout_height="@dimen/item_article_cardview_height"
+                    android:layout_margin="@dimen/image_detail_article_margin"
+                    android:clickable="true"
+                    android:focusable="true"
+                    android:foreground="?android:attr/selectableItemBackground"
+                    app:cardCornerRadius="10dp"
+                    app:cardElevation="5dp"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent">
+
+                    <ImageView
+                        android:id="@+id/article_detail_iv"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:contentDescription="@string/article_poster_image"
+                        android:scaleType="centerCrop" />
+
+                </androidx.cardview.widget.CardView>
+
+
+                <LinearLayout
+                    android:id="@+id/titles_layout"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/detail_article_top_margin"
+                    android:orientation="vertical"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintStart_toEndOf="@id/article_detail_cv"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    >
+
+
+                    <TextView
+                        android:id="@+id/article_title_tv"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="@dimen/article_text_title_margin"
+                        android:text="Title"
+                        android:textStyle="bold"
+                        android:textAlignment="center"
+                        android:textColor="@color/colorAccent"
+                        android:textSize="@dimen/detail_article_title_text_size" />
+
+                    <TextView
+                        android:id="@+id/article_canonical_title_tv"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="@dimen/article_text_title_margin"
+                        android:layout_marginTop="@dimen/article_text_title_margin"
+                        android:text="Canonical title"
+                        android:textAlignment="center"
+                        android:textColor="@color/white"
+                        android:textSize="@dimen/detail_article_subtitle_text_size" />
+
+                    <TextView
+                        android:id="@+id/article_type_tv"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="@dimen/article_text_title_margin"
+                        android:layout_marginTop="@dimen/article_text_title_margin"
+                        android:text="Show type, Number o episodes"
+                        android:textAlignment="center"
+                        android:textColor="@color/white"
+                        android:textSize="@dimen/detail_article_subtitle_text_size" />
+
+                    <TextView
+                        android:id="@+id/article_date_tv"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="@dimen/article_text_title_margin"
+                        android:layout_marginTop="@dimen/article_text_title_margin"
+                        android:text="@string/startdate_till_end_date"
+                        android:textAlignment="center"
+                        android:textColor="@color/white"
+                        android:textSize="@dimen/detail_article_subtitle_text_size" />
+
+                </LinearLayout>
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+            <androidx.cardview.widget.CardView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/detail_article_margin"
+                android:layout_marginEnd="@dimen/detail_article_margin"
+                android:clickable="true"
+                android:focusable="true"
+                android:foreground="?android:attr/selectableItemBackground"
+                android:elevation="5dp"
+                android:orientation="vertical"
+                app:cardBackgroundColor="@color/white"
+                app:cardCornerRadius="10dp">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical">
+
+                    <LinearLayout
+                        android:id="@+id/genres_list_layout"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="@dimen/image_detail_article_margin"
+                        android:layout_marginTop="@dimen/detail_article_top_margin"
+                        android:orientation="vertical">
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginStart="@dimen/article_text_title_margin"
+                            android:layout_marginEnd="@dimen/article_text_title_margin"
+                            android:text="@string/genres"
+                            android:textAlignment="center"
+                            android:textColor="@color/gray"
+                            android:textSize="@dimen/detail_article_subtitle_text_size" />
+
+                        <TextView
+                            android:id="@+id/article_genres_list_tv"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginStart="@dimen/article_text_title_margin"
+                            android:text="Genres list"
+                            android:textAlignment="center"
+                            android:textColor="@color/black"
+                            android:textSize="@dimen/detail_article_subtitle_text_size" />
+
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="@dimen/image_detail_article_margin"
+                        android:layout_marginTop="@dimen/image_detail_article_margin"
+                        android:layout_marginBottom="@dimen/image_detail_article_margin"
+                        android:orientation="horizontal"
+                        android:weightSum="10">
+
+                        <LinearLayout
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="5"
+                            android:orientation="vertical">
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_marginStart="@dimen/article_text_title_margin"
+                                android:layout_marginEnd="@dimen/article_text_title_margin"
+                                android:text="@string/average_rating"
+                                app:drawableEndCompat="@drawable/ic_start_rate"
+                                android:textAlignment="center"
+                                android:textColor="@color/gray"
+                                android:textSize="@dimen/detail_article_subtitle_text_size" />
+
+                            <TextView
+                                android:id="@+id/article_rating_tv"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_marginStart="@dimen/article_text_title_margin"
+                                android:text="Rating"
+                                android:textAlignment="center"
+                                android:textColor="@color/black"
+                                android:textSize="@dimen/detail_article_subtitle_text_size" />
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_marginStart="@dimen/article_text_title_margin"
+                                android:layout_marginTop="@dimen/detail_article_top_margin"
+                                android:layout_marginEnd="@dimen/article_text_title_margin"
+                                android:text="@string/episode_duration"
+                                android:textAlignment="center"
+                                android:textColor="@color/gray"
+                                android:textSize="@dimen/detail_article_subtitle_text_size" />
+
+                            <TextView
+                                android:id="@+id/article_duration_tv"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_marginStart="@dimen/article_text_title_margin"
+                                android:text="Duration"
+                                android:textAlignment="center"
+                                android:textColor="@color/black"
+                                android:textSize="@dimen/detail_article_subtitle_text_size" />
+
+                        </LinearLayout>
+
+                        <LinearLayout
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="5"
+                            android:orientation="vertical">
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_marginStart="@dimen/article_text_title_margin"
+                                android:layout_marginEnd="@dimen/article_text_title_margin"
+                                android:text="@string/age_rating"
+                                android:textAlignment="center"
+                                app:drawableEndCompat="@drawable/ic_rating"
+                                android:textColor="@color/gray"
+                                android:textSize="@dimen/detail_article_subtitle_text_size" />
+
+                            <TextView
+                                android:id="@+id/article_age_rating_tv"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_marginStart="@dimen/article_text_title_margin"
+                                android:text="Rating"
+                                android:textAlignment="center"
+                                android:textColor="@color/red"
+                                android:textSize="@dimen/detail_article_subtitle_text_size" />
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_marginStart="@dimen/article_text_title_margin"
+                                android:layout_marginTop="@dimen/detail_article_top_margin"
+                                android:layout_marginEnd="@dimen/article_text_title_margin"
+                                android:text="@string/airing_status"
+                                android:textAlignment="center"
+                                android:textColor="@color/gray"
+                                android:textSize="@dimen/detail_article_subtitle_text_size" />
+
+                            <TextView
+                                android:id="@+id/article_airing_status_tv"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_marginStart="@dimen/article_text_title_margin"
+                                android:text="Duration"
+                                android:textAlignment="center"
+                                android:textColor="@color/green"
+                                android:textSize="@dimen/detail_article_subtitle_text_size" />
+
+                        </LinearLayout>
+
+                    </LinearLayout>
+                </LinearLayout>
+            </androidx.cardview.widget.CardView>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/image_detail_article_margin"
+                android:layout_marginTop="@dimen/image_detail_article_margin"
+                android:layout_marginBottom="@dimen/image_detail_article_margin"
+                android:orientation="vertical">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/article_text_title_margin"
+                    android:layout_marginTop="@dimen/detail_article_top_margin"
+                    android:layout_marginEnd="@dimen/article_text_title_margin"
+                    android:text="@string/synopsis"
+                    android:textAlignment="center"
+                    android:textColor="@color/white"
+                    android:textSize="@dimen/detail_article_subtitle_text_size" />
+
+                <TextView
+                    android:id="@+id/article_synopsis_tv"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/article_text_title_margin"
+                    android:layout_marginTop="@dimen/image_detail_article_margin"
+                    android:text="Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum."
+                    android:textColor="@color/white"
+                    android:textSize="@dimen/detail_article_synopsis_size" />
+
+            </LinearLayout>
+        </LinearLayout>
+    </ScrollView>
+
+</LinearLayout>

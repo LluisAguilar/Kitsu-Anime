@@ -11,8 +11,12 @@
     <color name="fontPrimaryColorDark">#636885</color>
     <color name="background_clear_shadow">#1C000000</color>
     <color name="white">#FFFFFF</color>
+    <color name="white_low_2">#EDEDED</color>
     <color name="white_low">#DADADA</color>
     <color name="shadow">#4D000000</color>
     <color name="black">#000000</color>
     <color name="transparent">#00000000</color>
+    <color name="gray">#757575</color>
+    <color name="red">#FF2717</color>
+    <color name="green">#00BD13</color>
 </resources>

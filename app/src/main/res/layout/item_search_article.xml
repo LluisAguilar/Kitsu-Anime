@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:orientation="vertical"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:background="@color/background_clear_shadow">
+
+    <androidx.cardview.widget.CardView
+        android:id="@+id/item_article_cv"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/item_article_cardview_height"
+        app:cardCornerRadius="10dp"
+        app:cardElevation="5dp"
+        android:clickable="true"
+        android:focusable="true"
+        android:foreground="?android:attr/selectableItemBackground"
+        android:layout_marginStart="10dp"
+        android:layout_marginTop="10dp"
+        android:layout_marginBottom="10dp"
+        android:layout_marginEnd="10dp"
+        >
+
+        <FrameLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical"
+            android:gravity="center"
+            >
+
+            <ImageView
+                android:id="@+id/item_article_iv"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:contentDescription="@string/article_poster_image"
+                android:scaleType="centerCrop" />
+
+            <ImageView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:background="@drawable/background_shadow"
+                android:contentDescription="@string/background_image_shadow"
+                />
+
+            <TextView
+                android:id="@+id/item_article_title_tv"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="@dimen/main_article_text_title_size"
+                android:layout_marginBottom="@dimen/article_text_title_margin"
+                android:layout_marginStart="@dimen/article_text_title_margin"
+                android:layout_marginEnd="@dimen/article_text_title_margin"
+                android:layout_gravity="center|bottom"
+                android:textColor="@color/white"
+                android:textAlignment="center"
+                />
+
+        </FrameLayout>
+
+    </androidx.cardview.widget.CardView>
+
+</LinearLayout>

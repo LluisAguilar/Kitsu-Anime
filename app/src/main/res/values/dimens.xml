@@ -11,4 +11,14 @@
     <dimen name="item_categories_cardview_height">100dp</dimen>
     <dimen name="item_categories_cardview_width">180dp</dimen>
     <dimen name="main_category_text_size">25sp</dimen>
+    <dimen name="searchview_height">50dp</dimen>
+    <dimen name="arrow_back_width">30dp</dimen>
+    <dimen name="arrow_back_height">30dp</dimen>
+    <dimen name="image_detail_article_margin">10dp</dimen>
+    <dimen name="detail_article_title_text_size">18sp</dimen>
+    <dimen name="detail_article_text_size">18sp</dimen>
+    <dimen name="detail_article_subtitle_text_size">14sp</dimen>
+    <dimen name="detail_article_top_margin">10dp</dimen>
+    <dimen name="detail_article_margin">10dp</dimen>
+    <dimen name="detail_article_synopsis_size">13sp</dimen>
 </resources>

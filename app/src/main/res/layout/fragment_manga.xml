@@ -1,14 +1,159 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical"
+    android:background="@color/colorPrimaryDark"
     tools:context=".ui.fragments.MangaFragment">
 
-    <!-- TODO: Update blank fragment layout -->
-    <TextView
+    <androidx.appcompat.widget.SearchView
+        android:id="@+id/manga_search_view"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/searchview_height"
+        app:searchIcon="@drawable/ic_search"
+        app:searchHintIcon="@drawable/ic_search"
+        app:closeIcon="@drawable/ic_close"
+        app:commitIcon="@drawable/ic_next_arrow"
+        android:background="@color/colorPrimaryDark"
+        />
+
+    <ImageView
+        android:id="@+id/search_back_arrow"
+        android:layout_width="@dimen/arrow_back_width"
+        android:layout_height="@dimen/arrow_back_height"
+        android:src="@drawable/ic_next_arrow"
+        android:visibility="gone"
+        android:rotation="180"
+        />
+
+    <androidx.fragment.app.FragmentContainerView
+        android:id="@+id/manga_fragment_container"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:text="@string/hello_blank_fragment" />
+        android:visibility="gone"
+        />
 
-</FrameLayout>
+    <ScrollView
+        android:id="@+id/manga_menu_scrollview"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        >
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <LinearLayout
+                android:id="@+id/trending_anime_layout"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/trending_manga"
+                    android:textSize="@dimen/articles_title_menu_text_size"
+                    android:textColor="@color/white"
+                    android:layout_marginStart="@dimen/main_text_title_start_margin"
+                    />
+
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/trending_manga_recycler"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+                    tools:listitem="@layout/item_manga" />
+
+
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/on_air_layout"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/top_margin_articles_separation"
+                android:orientation="vertical">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/on_air_manga"
+                    android:textSize="@dimen/articles_title_menu_text_size"
+                    android:textColor="@color/white"
+                    android:layout_marginStart="@dimen/main_text_title_start_margin"
+                    />
+
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/on_air_manga_recycler"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+                    tools:listitem="@layout/item_manga" />
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/streamers_layout"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/top_margin_articles_separation"
+                android:orientation="vertical">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/finished_manga"
+                    android:textSize="@dimen/articles_title_menu_text_size"
+                    android:textColor="@color/white"
+                    android:layout_marginStart="@dimen/main_text_title_start_margin"
+                    />
+
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/finished_manga_recycler"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+                    tools:listitem="@layout/item_manga" />
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/categories_layout"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="@dimen/top_margin_articles_separation"
+                android:layout_marginTop="@dimen/top_margin_articles_separation"
+                android:orientation="vertical">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/manga_by_categories"
+                    android:textSize="@dimen/articles_title_menu_text_size"
+                    android:textColor="@color/white"
+                    android:layout_marginStart="@dimen/main_text_title_start_margin"
+                    />
+
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/categories_manga_recycler"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+                    tools:listitem="@layout/item_categories" />
+
+            </LinearLayout>
+
+
+        </LinearLayout>
+    </ScrollView>
+
+</LinearLayout>

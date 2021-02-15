@@ -7,7 +7,7 @@ import android.view.Window
 import android.view.WindowManager
 import android.widget.*
 import com.applaudo.android.applaudoscodechallenge.R
-import kotlinx.android.synthetic.main.alert_terms.*
+import kotlinx.android.synthetic.main.alert_information.*
 import java.text.NumberFormat
 import java.util.*
 
@@ -38,7 +38,7 @@ class CustomAlerts(val context: Context?) {
             Dialog(context!!, R.style.Theme_Dialog_Translucent)
         mAlertDialog.requestWindowFeature(Window.FEATURE_NO_TITLE)
         mAlertDialog.setCancelable(true)
-        mAlertDialog.setContentView(R.layout.alert_terms)
+        mAlertDialog.setContentView(R.layout.alert_information)
 
         mAlertDialog.body_tv.text = body
 
