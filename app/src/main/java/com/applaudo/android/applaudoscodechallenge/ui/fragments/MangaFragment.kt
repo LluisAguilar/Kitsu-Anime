@@ -147,7 +147,7 @@ class MangaFragment : Fragment(), MangaArticleRecyclerAdapter.OnArticleItemClick
     override fun OnArticleItemClick(articleId:String, position: Int, resourceid:Int) {
         if (resourceid == R.layout.item_manga) {
             val intent = Intent(activity as MainMenuActivity, ArticleDetailActivity::class.java)
-            intent.putExtra("article_type",UtilStrings.MANGA)
+            intent.putExtra("article_type", UtilStrings.MANGA)
             intent.putExtra("article_id",articleId)
             (activity as MainMenuActivity).startActivity(intent)
         } else if (resourceid == R.layout.item_categories) {

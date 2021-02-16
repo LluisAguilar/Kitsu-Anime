@@ -33,4 +33,6 @@
     <string name="episodes">Episodes:</string>
     <string name="minutes_each"> minutes each</string>
     <string name="to">to</string>
+    <string name="no_favorites_added">No favorites added</string>
+    <string name="article_favorite_heart_icon">Favorite value</string>
 </resources>

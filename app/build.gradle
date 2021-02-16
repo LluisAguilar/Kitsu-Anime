@@ -54,6 +54,13 @@ dependencies {
     //picasso
     implementation 'com.squareup.picasso:picasso:2.71828'
 
+    //Room
+    implementation "androidx.room:room-runtime:2.2.5"
+    kapt "androidx.room:room-compiler:2.2.5"
+
+    //Coroutines support for Room
+    implementation "androidx.room:room-ktx:2.2.5"
+
     testImplementation 'junit:junit:4.+'
     androidTestImplementation 'androidx.test.ext:junit:1.1.2'
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.3.0'

@@ -17,7 +17,7 @@ import retrofit2.Callback
 import retrofit2.Response
 
 
-class ApplaudoRemoteDataSource(private val mApplication: Application) {
+class ApplaudoRemoteDataSource() {
 
     private val mKitsuClient: KitsuClient = KitsuClient.instance!!
     private val mKitsuService: KitsuService

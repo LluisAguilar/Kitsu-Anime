@@ -1,7 +1,9 @@
 package com.applaudo.android.applaudoscodechallenge.utils
 
+import com.applaudo.android.applaudoscodechallenge.data.db.entities.ArticlesFavoriteEntity
 import com.applaudo.android.applaudoscodechallenge.data.retrofit.response.anime.Attributes
 import com.applaudo.android.applaudoscodechallenge.domain.models.ArticleData
+import com.applaudo.android.applaudoscodechallenge.domain.models.FavoriteArticleData
 import java.util.ArrayList
 
 class UtilMethods {
@@ -15,6 +17,7 @@ class UtilMethods {
                         article.get(x).id,
                         article.get(x).attributes?.posterImage?.original,
                         getAnimeTitle(article.get(x).attributes!!),
+                        UtilStrings.ANIME,
                         article.get(x).attributes?.canonicalTitle,
                         article.get(x).attributes?.showType,
                         article.get(x).attributes?.episodeCount.toString(),
@@ -69,6 +72,7 @@ class UtilMethods {
                         article.get(x).id,
                         article.get(x).attributes.posterImage?.original,
                         getMangaTitle(article.get(x).attributes),
+                        UtilStrings.ANIME,
                         article.get(x).attributes.canonicalTitle,
                         article.get(x).attributes.mangaType,
                         article.get(x).attributes.chapterCount.toString(),
@@ -132,6 +136,14 @@ class UtilMethods {
                 "No title"
             }
 
+        }
+
+        fun favoriteArticleEntityToFavoriteArticleModel(favoriteArticleEntity: List<ArticlesFavoriteEntity>?): ArrayList<FavoriteArticleData> {
+            val favoritesArticleList = arrayListOf<FavoriteArticleData>()
+            for (x in 0 until favoriteArticleEntity!!.size){
+                favoritesArticleList.add(FavoriteArticleData(favoriteArticleEntity.get(x).articleId.toString(),favoriteArticleEntity.get(x).title,favoriteArticleEntity.get(x).imageUrl,favoriteArticleEntity.get(x).articleType))
+            }
+            return favoritesArticleList
         }
     }
 }

@@ -14,11 +14,10 @@
         android:id="@+id/detail_back_arrow"
         android:layout_width="@dimen/arrow_back_width"
         android:layout_height="@dimen/arrow_back_height"
-        android:src="@drawable/ic_next_arrow"
         android:layout_marginStart="@dimen/detail_article_margin"
         android:contentDescription="@string/back_to_menu"
         android:rotation="180"
-        />
+        android:src="@drawable/ic_next_arrow" />
 
     <ScrollView
         android:layout_width="match_parent"
@@ -29,9 +28,10 @@
             android:layout_height="wrap_content"
             android:orientation="vertical">
 
-            <androidx.constraintlayout.widget.ConstraintLayout
+            <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content">
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
 
                 <androidx.cardview.widget.CardView
                     android:id="@+id/article_detail_cv"
@@ -42,10 +42,7 @@
                     android:focusable="true"
                     android:foreground="?android:attr/selectableItemBackground"
                     app:cardCornerRadius="10dp"
-                    app:cardElevation="5dp"
-                    app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toTopOf="parent">
+                    app:cardElevation="5dp">
 
                     <ImageView
                         android:id="@+id/article_detail_iv"
@@ -61,13 +58,9 @@
                     android:id="@+id/titles_layout"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:layout_gravity="center"
                     android:layout_marginStart="@dimen/detail_article_top_margin"
-                    android:orientation="vertical"
-                    app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintStart_toEndOf="@id/article_detail_cv"
-                    app:layout_constraintTop_toTopOf="parent"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    >
+                    android:orientation="vertical">
 
 
                     <TextView
@@ -76,10 +69,10 @@
                         android:layout_height="wrap_content"
                         android:layout_marginStart="@dimen/article_text_title_margin"
                         android:text="Title"
-                        android:textStyle="bold"
                         android:textAlignment="center"
                         android:textColor="@color/colorAccent"
-                        android:textSize="@dimen/detail_article_title_text_size" />
+                        android:textSize="@dimen/detail_article_title_text_size"
+                        android:textStyle="bold" />
 
                     <TextView
                         android:id="@+id/article_canonical_title_tv"
@@ -88,7 +81,7 @@
                         android:layout_marginStart="@dimen/article_text_title_margin"
                         android:layout_marginTop="@dimen/article_text_title_margin"
                         android:text="Canonical title"
-                        android:textAlignment="center"
+                        android:textAlignment="textStart"
                         android:textColor="@color/white"
                         android:textSize="@dimen/detail_article_subtitle_text_size" />
 
@@ -99,7 +92,7 @@
                         android:layout_marginStart="@dimen/article_text_title_margin"
                         android:layout_marginTop="@dimen/article_text_title_margin"
                         android:text="Show type, Number o episodes"
-                        android:textAlignment="center"
+                        android:textAlignment="textStart"
                         android:textColor="@color/white"
                         android:textSize="@dimen/detail_article_subtitle_text_size" />
 
@@ -110,12 +103,12 @@
                         android:layout_marginStart="@dimen/article_text_title_margin"
                         android:layout_marginTop="@dimen/article_text_title_margin"
                         android:text="@string/startdate_till_end_date"
-                        android:textAlignment="center"
+                        android:textAlignment="textStart"
                         android:textColor="@color/white"
                         android:textSize="@dimen/detail_article_subtitle_text_size" />
 
                 </LinearLayout>
-            </androidx.constraintlayout.widget.ConstraintLayout>
+            </LinearLayout>
 
             <androidx.cardview.widget.CardView
                 android:layout_width="match_parent"
@@ -123,9 +116,9 @@
                 android:layout_marginStart="@dimen/detail_article_margin"
                 android:layout_marginEnd="@dimen/detail_article_margin"
                 android:clickable="true"
+                android:elevation="5dp"
                 android:focusable="true"
                 android:foreground="?android:attr/selectableItemBackground"
-                android:elevation="5dp"
                 android:orientation="vertical"
                 app:cardBackgroundColor="@color/white"
                 app:cardCornerRadius="10dp">
@@ -139,29 +132,57 @@
                         android:id="@+id/genres_list_layout"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
+                        android:weightSum="10"
                         android:layout_marginStart="@dimen/image_detail_article_margin"
+                        android:layout_marginEnd="@dimen/image_detail_article_margin"
                         android:layout_marginTop="@dimen/detail_article_top_margin"
-                        android:orientation="vertical">
+                        android:orientation="horizontal">
 
-                        <TextView
-                            android:layout_width="wrap_content"
+                        <LinearLayout
+                            android:layout_width="0dp"
                             android:layout_height="wrap_content"
-                            android:layout_marginStart="@dimen/article_text_title_margin"
-                            android:layout_marginEnd="@dimen/article_text_title_margin"
-                            android:text="@string/genres"
-                            android:textAlignment="center"
-                            android:textColor="@color/gray"
-                            android:textSize="@dimen/detail_article_subtitle_text_size" />
+                            android:layout_weight="9"
+                            android:orientation="vertical">
 
-                        <TextView
-                            android:id="@+id/article_genres_list_tv"
-                            android:layout_width="wrap_content"
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_marginStart="@dimen/article_text_title_margin"
+                                android:layout_marginEnd="@dimen/article_text_title_margin"
+                                android:text="@string/genres"
+                                android:textAlignment="center"
+                                android:textColor="@color/gray"
+                                android:textSize="@dimen/detail_article_subtitle_text_size" />
+
+                            <TextView
+                                android:id="@+id/article_genres_list_tv"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_marginStart="@dimen/article_text_title_margin"
+                                android:text="Genres list"
+                                android:textAlignment="center"
+                                android:textColor="@color/black"
+                                android:textSize="@dimen/detail_article_subtitle_text_size" />
+                        </LinearLayout>
+
+                        <LinearLayout
+                            android:layout_width="0dp"
                             android:layout_height="wrap_content"
-                            android:layout_marginStart="@dimen/article_text_title_margin"
-                            android:text="Genres list"
-                            android:textAlignment="center"
-                            android:textColor="@color/black"
-                            android:textSize="@dimen/detail_article_subtitle_text_size" />
+                            android:orientation="vertical"
+                            android:gravity="center"
+                            android:layout_weight="1"
+                            >
+                            <ImageView
+                                android:id="@+id/article_favorite_iv"
+                                android:layout_width="30dp"
+                                android:layout_height="30dp"
+                                android:src="@drawable/ic_favorite_false"
+                                app:tint="@color/colorAccent"
+                                />
+
+                        </LinearLayout>
+
+
 
                     </LinearLayout>
 
@@ -186,10 +207,10 @@
                                 android:layout_marginStart="@dimen/article_text_title_margin"
                                 android:layout_marginEnd="@dimen/article_text_title_margin"
                                 android:text="@string/average_rating"
-                                app:drawableEndCompat="@drawable/ic_start_rate"
                                 android:textAlignment="center"
                                 android:textColor="@color/gray"
-                                android:textSize="@dimen/detail_article_subtitle_text_size" />
+                                android:textSize="@dimen/detail_article_subtitle_text_size"
+                                app:drawableEndCompat="@drawable/ic_start_rate" />
 
                             <TextView
                                 android:id="@+id/article_rating_tv"
@@ -237,7 +258,6 @@
                                 android:layout_marginEnd="@dimen/article_text_title_margin"
                                 android:text="@string/age_rating"
                                 android:textAlignment="center"
-                                app:drawableEndCompat="@drawable/ic_rating"
                                 android:textColor="@color/gray"
                                 android:textSize="@dimen/detail_article_subtitle_text_size" />
 

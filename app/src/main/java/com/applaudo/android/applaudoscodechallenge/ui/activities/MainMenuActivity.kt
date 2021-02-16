@@ -6,9 +6,10 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.viewpager.widget.ViewPager
 import com.applaudo.android.applaudoscodechallenge.R
 import com.applaudo.android.applaudoscodechallenge.domain.models.ArticleData
+import com.applaudo.android.applaudoscodechallenge.domain.models.FavoriteArticleData
 import com.applaudo.android.applaudoscodechallenge.ui.adapters.MenuPagerAdapter
 import com.applaudo.android.applaudoscodechallenge.ui.alert.CustomAlerts
-import com.applaudo.android.applaudoscodechallenge.domain.viewmodels.KitsuViewModel
+import com.applaudo.android.applaudoscodechallenge.domain.viewmodels.ArticleViewModel
 import com.applaudo.android.applaudoscodechallenge.utils.UtilMethods
 import com.applaudo.android.applaudoscodechallenge.utils.UtilStrings
 import com.applaudo.android.applaudoscodechallenge.utils.UtilStrings.Companion.categoriesList
@@ -19,7 +20,7 @@ class MainMenuActivity : AppCompatActivity(), ViewPager.OnPageChangeListener {
 
     private lateinit var mAlerts: CustomAlerts
     private lateinit var mMenuPagerAdapter: MenuPagerAdapter
-    private lateinit var mKitsuViewModel: KitsuViewModel
+    private lateinit var mArticleViewModel: ArticleViewModel
 
     private var mTrendingAnimeList = arrayListOf<ArticleData>()
     private var mCategoryAnimeList = arrayListOf<ArticleData>()
@@ -33,7 +34,7 @@ class MainMenuActivity : AppCompatActivity(), ViewPager.OnPageChangeListener {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
-        mKitsuViewModel = ViewModelProvider(this).get(KitsuViewModel::class.java)
+        mArticleViewModel = ViewModelProvider(this).get(ArticleViewModel::class.java)
         mAlerts = CustomAlerts(this)
 
         mMenuPagerAdapter = MenuPagerAdapter(supportFragmentManager, this)
@@ -48,7 +49,7 @@ class MainMenuActivity : AppCompatActivity(), ViewPager.OnPageChangeListener {
     //Call Trending anime data
     fun getTrendingAnimeData() {
         if (mTrendingAnimeList.size == 0) {
-            mKitsuViewModel.getAnime(UtilStrings.Companion.ANIME_DATA_TYPE.TRENDING, "", "", "","")
+            mArticleViewModel.getAnime(UtilStrings.Companion.ANIME_DATA_TYPE.TRENDING, "", "", "","")
                 .observe(this, {
                     if (it.status) {
                         mTrendingAnimeList.clear()
@@ -65,7 +66,7 @@ class MainMenuActivity : AppCompatActivity(), ViewPager.OnPageChangeListener {
     }
 
     private fun getOnAirAnimeData() {
-        mKitsuViewModel.getAnime(UtilStrings.Companion.ANIME_DATA_TYPE.ONAIR, "", "", "","")
+        mArticleViewModel.getAnime(UtilStrings.Companion.ANIME_DATA_TYPE.ONAIR, "", "", "","")
             .observe(this, {
                 if (it.status) {
                     mMenuPagerAdapter.animeFragment.setOnAirAnime(UtilMethods.getAnimeData(it.data!!))
@@ -77,7 +78,7 @@ class MainMenuActivity : AppCompatActivity(), ViewPager.OnPageChangeListener {
     }
 
     private fun getStreamersList() {
-        mKitsuViewModel.getStreamersImage().observe(this, {
+        mArticleViewModel.getStreamersImage().observe(this, {
             mMenuPagerAdapter.animeFragment.setStreamersList(it)
             getAnimeByCategory()
         })
@@ -85,7 +86,7 @@ class MainMenuActivity : AppCompatActivity(), ViewPager.OnPageChangeListener {
 
     private fun getAnimeByCategory() {
         try {
-            mKitsuViewModel.getAnime(
+            mArticleViewModel.getAnime(
                 UtilStrings.Companion.ANIME_DATA_TYPE.CATEGORIES,
                 categoriesList.get(mCategoriesAnimeCount),
                 "", "",""
@@ -115,7 +116,7 @@ class MainMenuActivity : AppCompatActivity(), ViewPager.OnPageChangeListener {
     //Call Trending anime data
     fun getTrendingManga() {
         if (mTrendingMangaList.size == 0) {
-            mKitsuViewModel.getManga(UtilStrings.Companion.MANGA_DATA_TYPE.TRENDING, "", "","")
+            mArticleViewModel.getManga(UtilStrings.Companion.MANGA_DATA_TYPE.TRENDING, "", "","")
                 .observe(this, {
                     if (it.status) {
                         mTrendingMangaList.clear()
@@ -132,7 +133,7 @@ class MainMenuActivity : AppCompatActivity(), ViewPager.OnPageChangeListener {
     }
 
     private fun getOnAirMangaData() {
-        mKitsuViewModel.getManga(UtilStrings.Companion.MANGA_DATA_TYPE.ONAIR, "", "","")
+        mArticleViewModel.getManga(UtilStrings.Companion.MANGA_DATA_TYPE.ONAIR, "", "","")
             .observe(this, {
                 if (it.status) {
                     mMenuPagerAdapter.mangaFragment.setOnAirManga(UtilMethods.getMangaData(it.data))
@@ -144,7 +145,7 @@ class MainMenuActivity : AppCompatActivity(), ViewPager.OnPageChangeListener {
     }
 
     private fun getFinishedMangaData() {
-        mKitsuViewModel.getManga(UtilStrings.Companion.MANGA_DATA_TYPE.FINISHED, "", "","")
+        mArticleViewModel.getManga(UtilStrings.Companion.MANGA_DATA_TYPE.FINISHED, "", "","")
             .observe(this, {
                 if (it.status) {
                     mMenuPagerAdapter.mangaFragment.setFinishedManga(UtilMethods.getMangaData(it.data))
@@ -157,7 +158,7 @@ class MainMenuActivity : AppCompatActivity(), ViewPager.OnPageChangeListener {
 
     private fun getMangaByCategory() {
         try {
-            mKitsuViewModel.getManga(
+            mArticleViewModel.getManga(
                 UtilStrings.Companion.MANGA_DATA_TYPE.CATEGORIES,
                 categoriesList.get(mCategoriesMangaCount),
                 "",""
@@ -200,10 +201,16 @@ class MainMenuActivity : AppCompatActivity(), ViewPager.OnPageChangeListener {
                 getTrendingManga()
             }
             2 -> {
-
+                getFavoriteArticles()
             }
         }
 
+    }
+
+    private fun getFavoriteArticles() {
+        mArticleViewModel.getFavorites().observe(this,{
+            mMenuPagerAdapter.favoritesFragment.setFavoriteArticlesInView(UtilMethods.favoriteArticleEntityToFavoriteArticleModel(it))
+        })
     }
 
     override fun onPageScrollStateChanged(state: Int) {
@@ -212,7 +219,7 @@ class MainMenuActivity : AppCompatActivity(), ViewPager.OnPageChangeListener {
 
     fun getSearchTextAnime(newText: String?) {
         if (newText != null) {
-            mKitsuViewModel.getAnime(UtilStrings.Companion.ANIME_DATA_TYPE.SEARCH_TEXT, "", newText,"","")
+            mArticleViewModel.getAnime(UtilStrings.Companion.ANIME_DATA_TYPE.SEARCH_TEXT, "", newText,"","")
                 .observe(this, {
                     if (it.status) {
                         mMenuPagerAdapter.animeFragment.setSearchedAnime(UtilMethods.getAnimeData(it.data!!))
@@ -225,7 +232,7 @@ class MainMenuActivity : AppCompatActivity(), ViewPager.OnPageChangeListener {
 
     fun getSearchTextManga(newText: String?) {
         if (newText != null) {
-            mKitsuViewModel.getManga(UtilStrings.Companion.MANGA_DATA_TYPE.SEARCH_TEXT, "", newText,"")
+            mArticleViewModel.getManga(UtilStrings.Companion.MANGA_DATA_TYPE.SEARCH_TEXT, "", newText,"")
                 .observe(this, {
                     if (it.status) {
                         mMenuPagerAdapter.mangaFragment.setSearchedManga(UtilMethods.getMangaData(it.data))
@@ -237,7 +244,7 @@ class MainMenuActivity : AppCompatActivity(), ViewPager.OnPageChangeListener {
     }
 
     fun getSearchAnimeByCategory(category: String) {
-        mKitsuViewModel.getAnime(
+        mArticleViewModel.getAnime(
             UtilStrings.Companion.ANIME_DATA_TYPE.CATEGORIES_SEARCH,
             category,
             "","",""
@@ -251,7 +258,7 @@ class MainMenuActivity : AppCompatActivity(), ViewPager.OnPageChangeListener {
     }
 
     fun getSearchAnimeByStreamer(streamer: String) {
-        mKitsuViewModel.getAnime(UtilStrings.Companion.ANIME_DATA_TYPE.STREAMER, "", "","", streamer).observe(this, {
+        mArticleViewModel.getAnime(UtilStrings.Companion.ANIME_DATA_TYPE.STREAMER, "", "","", streamer).observe(this, {
             if (it.status) {
                 mMenuPagerAdapter.animeFragment.setCategorySearched(UtilMethods.getAnimeData(it.data!!))
             } else {
@@ -261,7 +268,7 @@ class MainMenuActivity : AppCompatActivity(), ViewPager.OnPageChangeListener {
     }
 
     fun getSearchMangaByCategory(category: String) {
-        mKitsuViewModel.getManga(
+        mArticleViewModel.getManga(
             UtilStrings.Companion.MANGA_DATA_TYPE.CATEGORIES_SEARCH,
             category,
             "",""

@@ -1,5 +1,7 @@
 package com.applaudo.android.applaudoscodechallenge.utils
 
+import com.applaudo.android.applaudoscodechallenge.data.db.entities.ArticlesFavoriteEntity
+import com.applaudo.android.applaudoscodechallenge.domain.models.FavoriteArticleData
 import com.applaudo.android.applaudoscodechallenge.domain.models.StreamerData
 import java.util.ArrayList
 
