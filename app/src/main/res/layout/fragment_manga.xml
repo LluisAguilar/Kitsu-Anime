@@ -61,6 +61,23 @@
                     android:layout_marginStart="@dimen/main_text_title_start_margin"
                     />
 
+                <LinearLayout
+                    android:id="@+id/trending_manga_loader_layout"
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/item_article_cardview_height"
+                    android:orientation="vertical"
+                    android:gravity="center"
+                    >
+
+                    <ProgressBar
+                        android:theme="@style/CircularProgress"
+                        style="@style/Widget.AppCompat.ProgressBar"
+                        android:layout_width="match_parent"
+                        android:layout_height="@dimen/alert_loader_height"
+                        />
+
+                </LinearLayout>
+
                 <androidx.recyclerview.widget.RecyclerView
                     android:id="@+id/trending_manga_recycler"
                     android:layout_width="wrap_content"
@@ -89,6 +106,23 @@
                     android:layout_marginStart="@dimen/main_text_title_start_margin"
                     />
 
+                <LinearLayout
+                    android:id="@+id/onair_manga_loader_layout"
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/item_article_cardview_height"
+                    android:orientation="vertical"
+                    android:gravity="center"
+                    >
+
+                    <ProgressBar
+                        android:theme="@style/CircularProgress"
+                        style="@style/Widget.AppCompat.ProgressBar"
+                        android:layout_width="match_parent"
+                        android:layout_height="@dimen/alert_loader_height"
+                        />
+
+                </LinearLayout>
+
                 <androidx.recyclerview.widget.RecyclerView
                     android:id="@+id/on_air_manga_recycler"
                     android:layout_width="wrap_content"
@@ -100,7 +134,7 @@
             </LinearLayout>
 
             <LinearLayout
-                android:id="@+id/streamers_layout"
+                android:id="@+id/finished_layout"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/top_margin_articles_separation"
@@ -114,6 +148,23 @@
                     android:textColor="@color/white"
                     android:layout_marginStart="@dimen/main_text_title_start_margin"
                     />
+
+                <LinearLayout
+                    android:id="@+id/finished_manga_loader_layout"
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/item_article_cardview_height"
+                    android:orientation="vertical"
+                    android:gravity="center"
+                    >
+
+                    <ProgressBar
+                        android:theme="@style/CircularProgress"
+                        style="@style/Widget.AppCompat.ProgressBar"
+                        android:layout_width="match_parent"
+                        android:layout_height="@dimen/alert_loader_height"
+                        />
+
+                </LinearLayout>
 
                 <androidx.recyclerview.widget.RecyclerView
                     android:id="@+id/finished_manga_recycler"
@@ -141,6 +192,23 @@
                     android:textColor="@color/white"
                     android:layout_marginStart="@dimen/main_text_title_start_margin"
                     />
+
+                <LinearLayout
+                    android:id="@+id/categories_manga_loader_layout"
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/item_article_cardview_height"
+                    android:orientation="vertical"
+                    android:gravity="center"
+                    >
+
+                    <ProgressBar
+                        android:theme="@style/CircularProgress"
+                        style="@style/Widget.AppCompat.ProgressBar"
+                        android:layout_width="match_parent"
+                        android:layout_height="@dimen/alert_loader_height"
+                        />
+
+                </LinearLayout>
 
                 <androidx.recyclerview.widget.RecyclerView
                     android:id="@+id/categories_manga_recycler"

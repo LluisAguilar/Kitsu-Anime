@@ -1,6 +1,8 @@
 package com.blumonpay.interjet.data.retrofit
 
 import com.applaudo.android.applaudoscodechallenge.data.retrofit.response.anime.AnimeArticleData
+import com.applaudo.android.applaudoscodechallenge.data.retrofit.response.chapters_characters.ChaptersCharacters
+import com.applaudo.android.applaudoscodechallenge.data.retrofit.response.genres.Genres
 import com.applaudo.android.applaudoscodechallenge.data.retrofit.response.manga.MangaArticleData
 import retrofit2.Call
 import retrofit2.http.*
@@ -14,7 +16,10 @@ interface KitsuService {
     fun getAnimeOnAir(): Call<AnimeArticleData>
 
     @GET
-    fun getAnimeByCategory(@Url url:String): Call<AnimeArticleData>
+    fun getAnime(@Url url:String): Call<AnimeArticleData>
+
+    @GET
+    fun getArticle(@Url url:String): Call<ChaptersCharacters>
 
     @GET("trending/manga?")
     fun getTrendingManga(): Call<MangaArticleData>
@@ -26,26 +31,8 @@ interface KitsuService {
     fun getMangaFinished(): Call<MangaArticleData>
 
     @GET
-    fun getMangaByCategory(@Url url:String): Call<MangaArticleData>
+    fun getManga(@Url url:String): Call<MangaArticleData>
 
     @GET
-    fun getAnimeByTextSearch(@Url url:String): Call<AnimeArticleData>
-
-    @GET
-    fun getAnimeByCategoryTextSearch(@Url url:String): Call<AnimeArticleData>
-
-    @GET
-    fun getMangaByTextSearch(@Url url:String): Call<MangaArticleData>
-
-    @GET
-    fun getMangaByCategoryTextSearch(@Url url:String): Call<MangaArticleData>
-
-    @GET
-    fun getAnimeById(@Url url:String): Call<AnimeArticleData>
-
-    @GET
-    fun getAnimeByStreamer(@Url url:String): Call<AnimeArticleData>
-
-    @GET
-    fun getMAngaById(@Url url:String): Call<MangaArticleData>
+    fun getGenres(@Url url:String): Call<Genres>
 }

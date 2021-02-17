@@ -1,4 +1,4 @@
-package com.applaudo.android.applaudoscodechallenge.utils
+package com.applaudo.android.applaudoscodechallenge.ui.utils
 
 import android.app.Application
 

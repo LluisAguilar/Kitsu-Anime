@@ -61,14 +61,32 @@
                 android:layout_marginStart="@dimen/main_text_title_start_margin"
                 />
 
+            <LinearLayout
+                android:id="@+id/trending_anime_loader_layout"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/item_article_cardview_height"
+                android:orientation="vertical"
+                android:gravity="center"
+                >
+
+                <ProgressBar
+                    android:id="@+id/progressBar"
+                    android:theme="@style/CircularProgress"
+                    style="@style/Widget.AppCompat.ProgressBar"
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/alert_loader_height"
+                    />
+
+            </LinearLayout>
+
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/trending_anime_recycler"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:orientation="horizontal"
+                android:visibility="gone"
                 app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
                 tools:listitem="@layout/item_anime" />
-
 
 
         </LinearLayout>
@@ -89,11 +107,29 @@
                 android:layout_marginStart="@dimen/main_text_title_start_margin"
                 />
 
+            <LinearLayout
+                android:id="@+id/onair_anime_loader_layout"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/item_article_cardview_height"
+                android:orientation="vertical"
+                android:gravity="center"
+                >
+
+                <ProgressBar
+                    android:theme="@style/CircularProgress"
+                    style="@style/Widget.AppCompat.ProgressBar"
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/alert_loader_height"
+                    />
+
+            </LinearLayout>
+
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/on_air_anime_recycler"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:orientation="horizontal"
+                android:visibility="gone"
                 app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
                 tools:listitem="@layout/item_anime" />
 
@@ -115,12 +151,30 @@
                 android:layout_marginStart="@dimen/main_text_title_start_margin"
                 />
 
+            <LinearLayout
+                android:id="@+id/streamers_anime_loader_layout"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/item_article_cardview_height"
+                android:orientation="vertical"
+                android:gravity="center"
+                >
+
+                <ProgressBar
+                    android:theme="@style/CircularProgress"
+                    style="@style/Widget.AppCompat.ProgressBar"
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/alert_loader_height"
+                    />
+
+            </LinearLayout>
+
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/streamers_anime_recycler"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:orientation="horizontal"
                 app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+                android:visibility="gone"
                 tools:listitem="@layout/item_streamers" />
 
         </LinearLayout>
@@ -142,11 +196,29 @@
                 android:layout_marginStart="@dimen/main_text_title_start_margin"
                 />
 
+            <LinearLayout
+                android:id="@+id/categories_anime_loader_layout"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/item_article_cardview_height"
+                android:orientation="vertical"
+                android:gravity="center"
+                >
+
+                <ProgressBar
+                    android:theme="@style/CircularProgress"
+                    style="@style/Widget.AppCompat.ProgressBar"
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/alert_loader_height"
+                    />
+
+            </LinearLayout>
+
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/categories_anime_recycler"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:orientation="horizontal"
+                android:visibility="gone"
                 app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
                 tools:listitem="@layout/item_categories" />
 

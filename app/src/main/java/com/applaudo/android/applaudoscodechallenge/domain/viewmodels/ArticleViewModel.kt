@@ -7,13 +7,13 @@ import androidx.lifecycle.MutableLiveData
 import com.applaudo.android.applaudoscodechallenge.data.db.entities.ArticlesFavoriteEntity
 import com.applaudo.android.applaudoscodechallenge.data.repositories.ApplaudoRepository
 import com.applaudo.android.applaudoscodechallenge.data.retrofit.response.anime.AnimeArticleData
+import com.applaudo.android.applaudoscodechallenge.data.retrofit.response.chapters_characters.ChaptersCharacters
+import com.applaudo.android.applaudoscodechallenge.data.retrofit.response.genres.Genres
 import com.applaudo.android.applaudoscodechallenge.data.retrofit.response.manga.MangaArticleData
 import com.applaudo.android.applaudoscodechallenge.domain.models.ArticleData
-import com.applaudo.android.applaudoscodechallenge.domain.models.FavoriteArticleData
 import com.applaudo.android.applaudoscodechallenge.domain.models.StreamerData
-import com.applaudo.android.applaudoscodechallenge.utils.UtilStrings
-import com.applaudo.android.applaudoscodechallenge.utils.UtilStrings.Companion.ANIME_DATA_TYPE
-import java.lang.NullPointerException
+import com.applaudo.android.applaudoscodechallenge.ui.utils.UtilStrings
+import com.applaudo.android.applaudoscodechallenge.ui.utils.UtilStrings.Companion.ANIME_DATA_TYPE
 
 class ArticleViewModel(application: Application) : AndroidViewModel(application) {
 
@@ -27,6 +27,14 @@ class ArticleViewModel(application: Application) : AndroidViewModel(application)
         return mApplaudoRepository.getAnime(dataType, category,searchText,articleId,streamer)
     }
 
+    fun getEpisodesCharacters(dataType: UtilStrings.Companion.ARTICLE_DATA_TYPE, articleId: String) : MutableLiveData<ChaptersCharacters> {
+        return mApplaudoRepository.getEpisodesCharacters(dataType, articleId)
+    }
+
+    fun getGenres(dataType: UtilStrings.Companion.ARTICLE_GENRE_TYPE, articleId: String): MutableLiveData<Genres> {
+        return mApplaudoRepository.getGenres(dataType, articleId)
+    }
+
     fun getStreamersImage(): MutableLiveData<ArrayList<StreamerData>> {
         return  mApplaudoRepository.getStreamersImage()
     }
@@ -36,7 +44,7 @@ class ArticleViewModel(application: Application) : AndroidViewModel(application)
     }
 
     fun insertFavoriteArticle(articleData: ArticleData){
-        mApplaudoRepository.insertFavoriteArticle(ArticlesFavoriteEntity(articleData.title!!,articleData.imageUrl!!,articleData.articleType!!,articleData.id.toInt()))
+        mApplaudoRepository.insertFavoriteArticle(ArticlesFavoriteEntity(articleData.title!!,articleData.imageUrl!!,articleData.articleType,articleData.id.toInt()))
     }
 
     fun deleteFavoriteArticle(id:Int){

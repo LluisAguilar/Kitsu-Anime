@@ -19,6 +19,11 @@
         android:rotation="180"
         android:src="@drawable/ic_next_arrow" />
 
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        >
+
     <ScrollView
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
@@ -139,9 +144,11 @@
                         android:orientation="horizontal">
 
                         <LinearLayout
+                            android:id="@+id/article_genres_detail"
                             android:layout_width="0dp"
                             android:layout_height="wrap_content"
                             android:layout_weight="9"
+                            android:visibility="invisible"
                             android:orientation="vertical">
 
                             <TextView
@@ -154,15 +161,27 @@
                                 android:textColor="@color/gray"
                                 android:textSize="@dimen/detail_article_subtitle_text_size" />
 
-                            <TextView
-                                android:id="@+id/article_genres_list_tv"
-                                android:layout_width="wrap_content"
+                            <HorizontalScrollView
+                                android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
-                                android:layout_marginStart="@dimen/article_text_title_margin"
-                                android:text="Genres list"
-                                android:textAlignment="center"
-                                android:textColor="@color/black"
-                                android:textSize="@dimen/detail_article_subtitle_text_size" />
+                                >
+                                <LinearLayout
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:orientation="horizontal"
+                                    >
+                                    <TextView
+                                        android:id="@+id/article_genres_list_tv"
+                                        android:layout_width="wrap_content"
+                                        android:layout_height="wrap_content"
+                                        android:layout_marginStart="@dimen/article_text_title_margin"
+                                        android:text="Genres list"
+                                        android:textAlignment="center"
+                                        android:textColor="@color/black"
+                                        android:textSize="@dimen/detail_article_subtitle_text_size" />
+
+                                </LinearLayout>
+                            </HorizontalScrollView>
                         </LinearLayout>
 
                         <LinearLayout
@@ -295,6 +314,43 @@
                         </LinearLayout>
 
                     </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:weightSum="10"
+                        android:layout_marginBottom="@dimen/detail_article_margin"
+                        android:orientation="horizontal"
+                        >
+
+                        <TextView
+                            android:id="@+id/article_detail_chapters"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="5"
+                            android:layout_marginStart="@dimen/article_text_title_margin"
+                            android:text="@string/chapters"
+                            android:textAlignment="center"
+                            android:textColor="@color/colorAccent"
+                            android:textSize="@dimen/detail_article_title_text_size"
+                            android:textStyle="bold"
+                            app:drawableTopCompat="@drawable/ic_chapters" />
+
+                        <TextView
+                            android:id="@+id/article_detail_characters"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="5"
+                            android:layout_marginStart="@dimen/article_text_title_margin"
+                            android:text="@string/characters"
+                            android:textAlignment="center"
+                            android:textColor="@color/colorAccent"
+                            android:textSize="@dimen/detail_article_title_text_size"
+                            android:textStyle="bold"
+                            app:drawableTopCompat="@drawable/ic_characters" />
+
+                    </LinearLayout>
+
                 </LinearLayout>
             </androidx.cardview.widget.CardView>
 
@@ -303,7 +359,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginStart="@dimen/image_detail_article_margin"
                 android:layout_marginTop="@dimen/image_detail_article_margin"
-                android:layout_marginBottom="@dimen/image_detail_article_margin"
+                android:layout_marginBottom="@dimen/bottom_video_margin"
                 android:orientation="vertical">
 
                 <TextView
@@ -327,8 +383,56 @@
                     android:textColor="@color/white"
                     android:textSize="@dimen/detail_article_synopsis_size" />
 
+                <androidx.cardview.widget.CardView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/detail_article_margin"
+                    android:layout_marginEnd="@dimen/detail_article_margin"
+                    android:clickable="true"
+                    android:elevation="5dp"
+                    android:focusable="true"
+                    android:layout_marginTop="@dimen/detail_article_margin"
+                    android:layout_marginBottom="@dimen/detail_article_margin"
+                    android:foreground="?android:attr/selectableItemBackground"
+                    android:orientation="vertical"
+                    app:cardCornerRadius="10dp">
+
+                <LinearLayout
+                    android:id="@+id/article_youtube_layout"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    >
+                    <com.pierfrancescosoffritti.androidyoutubeplayer.core.player.views.YouTubePlayerView
+                        android:id="@+id/article_detail_youtube_pv"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        app:autoPlay="false"
+                        app:showFullScreenButton="false" />
+
+                </LinearLayout>
+
+                </androidx.cardview.widget.CardView>
+
             </LinearLayout>
         </LinearLayout>
+
     </ScrollView>
+
+        <com.google.android.material.floatingactionbutton.FloatingActionButton
+            android:id="@+id/article_share_fab"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="end|bottom"
+            android:layout_marginBottom="@dimen/detail_article_margin"
+            android:layout_marginEnd="@dimen/detail_article_margin"
+            android:src="@drawable/ic_share"
+            android:backgroundTint="@color/colorAccent"
+            app:elevation="5dp"
+            app:fabSize="normal"
+
+            />
+
+    </FrameLayout>
 
 </LinearLayout>

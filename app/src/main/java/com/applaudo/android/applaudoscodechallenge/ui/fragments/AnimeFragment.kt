@@ -18,7 +18,7 @@ import com.applaudo.android.applaudoscodechallenge.ui.activities.ArticleDetailAc
 import com.applaudo.android.applaudoscodechallenge.ui.activities.MainMenuActivity
 import com.applaudo.android.applaudoscodechallenge.ui.adapters.AnimeArticleRecyclerAdapter
 import com.applaudo.android.applaudoscodechallenge.ui.adapters.StreamerItemAdapter
-import com.applaudo.android.applaudoscodechallenge.utils.UtilStrings
+import com.applaudo.android.applaudoscodechallenge.ui.utils.UtilStrings
 import kotlinx.android.synthetic.main.fragment_anime.view.*
 
 class AnimeFragment : Fragment(), AnimeArticleRecyclerAdapter.OnArticleItemClickListener,
@@ -40,7 +40,7 @@ class AnimeFragment : Fragment(), AnimeArticleRecyclerAdapter.OnArticleItemClick
     private var mStreamersList = arrayListOf<StreamerData>()
 
     private lateinit var mFragmentManager: FragmentManager
-    private lateinit var mSearchFragment: SearchFragment
+    lateinit var mSearchFragment: SearchFragment
 
     private var activeSearch = false
 
@@ -84,10 +84,7 @@ class AnimeFragment : Fragment(), AnimeArticleRecyclerAdapter.OnArticleItemClick
         mView.streamers_anime_recycler.adapter = mStreamerItemAdapter
 
         mView.search_back_arrow.setOnClickListener {
-            dismissSearchFragment()
-            mView.search_back_arrow.visibility = View.GONE
-            mView.anime_search_view.visibility = View.VISIBLE
-            activeSearch = false
+            onBackAnime()
         }
 
         if (activeSearch) {
@@ -100,6 +97,13 @@ class AnimeFragment : Fragment(), AnimeArticleRecyclerAdapter.OnArticleItemClick
         return mView
     }
 
+    fun onBackAnime(){
+        dismissSearchFragment()
+        mView.search_back_arrow.visibility = View.GONE
+        mView.anime_search_view.visibility = View.VISIBLE
+        activeSearch = false
+    }
+
     fun setSearchViewListeners() {
         mView.anime_search_view.setOnCloseListener(this)
         mView.anime_search_view.setOnQueryTextListener(this)
@@ -109,24 +113,32 @@ class AnimeFragment : Fragment(), AnimeArticleRecyclerAdapter.OnArticleItemClick
         mTrendingArticlesList = mTrendingAnimeList
         mAnimeArticleTrendingAdapter.updateAdapter(mTrendingArticlesList)
         mView.trending_anime_recycler.adapter = mAnimeArticleTrendingAdapter
+        mView.trending_anime_recycler.visibility = View.VISIBLE
+        mView.trending_anime_loader_layout.visibility = View.GONE
     }
 
     fun setOnAirAnime(mOnAirAnimeList: ArrayList<ArticleData>) {
         mOnAirArticlesList = mOnAirAnimeList
         mAnimeArticleOnAirAdapter.updateAdapter(mOnAirArticlesList)
         mView.on_air_anime_recycler.adapter = mAnimeArticleOnAirAdapter
+        mView.on_air_anime_recycler.visibility = View.VISIBLE
+        mView.onair_anime_loader_layout.visibility = View.GONE
     }
 
     fun setCategoryAnime(mCategoriesList: ArrayList<ArticleData>) {
         mCategoryArticlesList = mCategoriesList
         mAnimeArticleCategoryAdapter.updateAdapter(mCategoryArticlesList)
         mView.categories_anime_recycler.adapter = mAnimeArticleCategoryAdapter
+        mView.categories_anime_recycler.visibility = View.VISIBLE
+        mView.categories_anime_loader_layout.visibility = View.GONE
     }
 
     fun setStreamersList(streamersList: ArrayList<StreamerData>) {
         mStreamersList = streamersList
         mStreamerItemAdapter.updateAdapter(mStreamersList)
         mView.streamers_anime_recycler.adapter = mStreamerItemAdapter
+        mView.streamers_anime_recycler.visibility = View.VISIBLE
+        mView.streamers_anime_loader_layout.visibility = View.GONE
     }
 
     companion object {
@@ -140,14 +152,16 @@ class AnimeFragment : Fragment(), AnimeArticleRecyclerAdapter.OnArticleItemClick
     }
 
     private fun loadSearchFragment() {
-        try {
-            mFragmentManager.beginTransaction()
-                .add(R.id.anime_fragment_container, mSearchFragment).commit()
-        } catch (isException: IllegalStateException) {
-            isException.printStackTrace()
-            mFragmentManager.beginTransaction()
-                .add(R.id.anime_fragment_container, mSearchFragment)
-                .commitAllowingStateLoss()
+        if (!mSearchFragment.isAdded) {
+            try {
+                mFragmentManager.beginTransaction()
+                    .add(R.id.anime_fragment_container, mSearchFragment).commit()
+            } catch (isException: IllegalStateException) {
+                isException.printStackTrace()
+                mFragmentManager.beginTransaction()
+                    .add(R.id.anime_fragment_container, mSearchFragment)
+                    .commitAllowingStateLoss()
+            }
         }
     }
 
@@ -246,5 +260,16 @@ class AnimeFragment : Fragment(), AnimeArticleRecyclerAdapter.OnArticleItemClick
             )
         }
         mSearchFragment.setSearchedData(searchList, UtilStrings.ANIME)
+    }
+
+    fun setLoadersInvisible() {
+        mView.trending_anime_recycler.visibility = View.VISIBLE
+        mView.on_air_anime_recycler.visibility = View.VISIBLE
+        mView.streamers_anime_recycler.visibility = View.VISIBLE
+        mView.categories_anime_recycler.visibility = View.VISIBLE
+        mView.trending_anime_loader_layout.visibility = View.GONE
+        mView.onair_anime_loader_layout.visibility = View.GONE
+        mView.categories_anime_loader_layout.visibility = View.GONE
+        mView.streamers_anime_loader_layout.visibility = View.GONE
     }
 }

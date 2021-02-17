@@ -41,8 +41,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:background="@drawable/background_shadow"
-                android:contentDescription="@string/background_image_shadow"
-                />
+                android:contentDescription="@string/background_image_shadow" />
 
             <TextView
                 android:id="@+id/item_article_title_tv"

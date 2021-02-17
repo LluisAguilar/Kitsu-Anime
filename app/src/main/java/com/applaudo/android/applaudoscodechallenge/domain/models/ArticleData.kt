@@ -1,7 +1,5 @@
 package com.applaudo.android.applaudoscodechallenge.domain.models
 
-import com.applaudo.android.applaudoscodechallenge.utils.UtilStrings
-
 data class ArticleData(
         val id:String,
         val imageUrl:String?,
@@ -19,6 +17,8 @@ data class ArticleData(
         val duration:String?,
         val airingStatus:String?,
         val synopsis:String?,
-        val youtubeUrl:String?
+        val youtubeUrl:String?,
+        val chapters:String?,
+        val characters:String?
 ) {
 }

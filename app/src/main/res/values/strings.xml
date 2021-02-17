@@ -35,4 +35,16 @@
     <string name="to">to</string>
     <string name="no_favorites_added">No favorites added</string>
     <string name="article_favorite_heart_icon">Favorite value</string>
+    <string name="removed_from_favorites">Removed from favorites</string>
+    <string name="added_to_afvorites">Added to favorites</string>
+    <string name="chapters">Chapters</string>
+    <string name="characters">Characters</string>
+    <string name="episode_title">Episode</string>
+    <string name="character_name">Character</string>
+    <string name="no_title">No title</string>
+    <string name="no_episodes_found">No episodes found</string>
+    <string name="no_characters_found">No characters found</string>
+    <string name="chapter_title">Chapter</string>
+    <string name="send_to">Send to...</string>
+    <string name="no_genres_found">No genres found</string>
 </resources>

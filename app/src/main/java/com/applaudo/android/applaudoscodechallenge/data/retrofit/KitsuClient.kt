@@ -2,7 +2,7 @@ package com.blumonpay.interjet.data.retrofit
 
 
 import com.applaudo.android.applaudoscodechallenge.data.retrofit.AuthInterceptor
-import com.applaudo.android.applaudoscodechallenge.utils.UtilStrings.Companion.BASE_URL
+import com.applaudo.android.applaudoscodechallenge.ui.utils.UtilStrings.Companion.BASE_URL
 import okhttp3.OkHttpClient
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory

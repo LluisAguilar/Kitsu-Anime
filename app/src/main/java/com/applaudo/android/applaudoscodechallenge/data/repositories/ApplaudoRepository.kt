@@ -7,10 +7,13 @@ import com.applaudo.android.applaudoscodechallenge.data.db.entities.ArticlesFavo
 import com.applaudo.android.applaudoscodechallenge.data.repositories.datasource.ApplaudoLocalDataSource
 import com.applaudo.android.applaudoscodechallenge.data.repositories.datasource.ApplaudoRemoteDataSource
 import com.applaudo.android.applaudoscodechallenge.data.retrofit.response.anime.AnimeArticleData
+import com.applaudo.android.applaudoscodechallenge.data.retrofit.response.chapters_characters.ChaptersCharacters
+import com.applaudo.android.applaudoscodechallenge.data.retrofit.response.genres.Genres
 import com.applaudo.android.applaudoscodechallenge.data.retrofit.response.manga.MangaArticleData
 import com.applaudo.android.applaudoscodechallenge.domain.models.StreamerData
-import com.applaudo.android.applaudoscodechallenge.utils.UtilStrings.Companion.ANIME_DATA_TYPE
-import com.applaudo.android.applaudoscodechallenge.utils.UtilStrings.Companion.MANGA_DATA_TYPE
+import com.applaudo.android.applaudoscodechallenge.ui.utils.UtilStrings
+import com.applaudo.android.applaudoscodechallenge.ui.utils.UtilStrings.Companion.ANIME_DATA_TYPE
+import com.applaudo.android.applaudoscodechallenge.ui.utils.UtilStrings.Companion.MANGA_DATA_TYPE
 import java.util.ArrayList
 
 class ApplaudoRepository(application: Application) {
@@ -45,6 +48,15 @@ class ApplaudoRepository(application: Application) {
 
     fun getFavorites():LiveData<List<ArticlesFavoriteEntity>> {
         return mApplaudoLocalDataSource.getFavorites()
+    }
+
+    fun getEpisodesCharacters(
+        dataType: UtilStrings.Companion.ARTICLE_DATA_TYPE, articleId: String): MutableLiveData<ChaptersCharacters> {
+        return mApplaudoRemoteDataSource.getEpisodesCharacters(dataType, articleId)
+    }
+
+    fun getGenres(dataType: UtilStrings.Companion.ARTICLE_GENRE_TYPE, articleId: String): MutableLiveData<Genres> {
+        return mApplaudoRemoteDataSource.getGenres(dataType, articleId)
     }
 
 

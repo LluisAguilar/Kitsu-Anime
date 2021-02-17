@@ -40,6 +40,13 @@
             <ImageView
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
+                android:background="@drawable/background_shadow_full"
+                android:contentDescription="@string/background_image_shadow"
+                />
+
+            <ImageView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
                 android:background="@drawable/background_shadow"
                 android:contentDescription="@string/background_image_shadow"
                 />
@@ -60,7 +67,7 @@
             <ImageView
                 android:layout_width="25dp"
                 android:layout_height="25dp"
-                app:tint="@color/colorPrimary"
+                app:tint="@color/colorAccent"
                 android:layout_gravity="top|end"
                 android:layout_marginEnd="@dimen/detail_article_margin"
                 android:layout_marginTop="@dimen/detail_article_margin"

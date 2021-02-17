@@ -1,15 +1,17 @@
 package com.applaudo.android.applaudoscodechallenge.data.repositories.datasource
 
-import android.app.Application
 import androidx.lifecycle.MutableLiveData
 import com.applaudo.android.applaudoscodechallenge.data.retrofit.response.anime.AnimeArticleData
 import com.applaudo.android.applaudoscodechallenge.data.retrofit.response.anime.Error
 import com.applaudo.android.applaudoscodechallenge.data.retrofit.response.anime.KitsuError
+import com.applaudo.android.applaudoscodechallenge.data.retrofit.response.chapters_characters.ChaptersCharacters
+import com.applaudo.android.applaudoscodechallenge.data.retrofit.response.genres.Genres
 import com.applaudo.android.applaudoscodechallenge.data.retrofit.response.manga.MangaArticleData
 import com.applaudo.android.applaudoscodechallenge.domain.models.StreamerData
-import com.applaudo.android.applaudoscodechallenge.utils.UtilStrings
-import com.applaudo.android.applaudoscodechallenge.utils.UtilStrings.Companion.ANIME_DATA_TYPE
-import com.applaudo.android.applaudoscodechallenge.utils.UtilStrings.Companion.MANGA_DATA_TYPE
+import com.applaudo.android.applaudoscodechallenge.ui.utils.UtilMethods
+import com.applaudo.android.applaudoscodechallenge.ui.utils.UtilStrings
+import com.applaudo.android.applaudoscodechallenge.ui.utils.UtilStrings.Companion.ANIME_DATA_TYPE
+import com.applaudo.android.applaudoscodechallenge.ui.utils.UtilStrings.Companion.MANGA_DATA_TYPE
 import com.blumonpay.interjet.data.retrofit.KitsuClient
 import com.blumonpay.interjet.data.retrofit.KitsuService
 import retrofit2.Call
@@ -24,7 +26,6 @@ class ApplaudoRemoteDataSource() {
 
     init {
         mKitsuService = mKitsuClient.getService()
-
     }
 
 
@@ -45,19 +46,19 @@ class ApplaudoRemoteDataSource() {
                 call = mKitsuService.getAnimeOnAir()
             }
             ANIME_DATA_TYPE.CATEGORIES -> {
-                call = mKitsuService.getAnimeByCategory(UtilStrings.ANIME_CATEGORIES_URL + category)
+                call = mKitsuService.getAnime(UtilStrings.ANIME_CATEGORIES_URL + category)
             }
             ANIME_DATA_TYPE.SEARCH_TEXT -> {
-                call = mKitsuService.getAnimeByTextSearch(UtilStrings.ANIME_TEXT_SEARCH_URL + searchText)
+                call = mKitsuService.getAnime(UtilStrings.ANIME_TEXT_SEARCH_URL + searchText)
             }
             ANIME_DATA_TYPE.CATEGORIES_SEARCH -> {
-                call = mKitsuService.getAnimeByCategoryTextSearch(UtilStrings.ANIME_CATEGORY_TEXT_SEARCH_URL + category)
+                call = mKitsuService.getAnime(UtilStrings.ANIME_CATEGORY_TEXT_SEARCH_URL + category)
             }
             ANIME_DATA_TYPE.INDIVIDUAL -> {
-                call = mKitsuService.getAnimeById(UtilStrings.ANIME_BY_ID_URL + articleId)
+                call = mKitsuService.getAnime(UtilStrings.ANIME_BY_ID_URL + articleId)
             }
             ANIME_DATA_TYPE.STREAMER -> {
-                call = mKitsuService.getAnimeByStreamer(UtilStrings.ANIME_BY_STREAMER_URL + streamer)
+                call = mKitsuService.getAnime(UtilStrings.ANIME_BY_STREAMER_URL + streamer)
             }
 
         }
@@ -83,6 +84,83 @@ class ApplaudoRemoteDataSource() {
         return articleDataResponse
     }
 
+    fun getEpisodesCharacters(dataType: UtilStrings.Companion.ARTICLE_DATA_TYPE, articleId: String): MutableLiveData<ChaptersCharacters> {
+        val articleDataResponse = MutableLiveData<ChaptersCharacters>()
+        var call: Call<ChaptersCharacters> = mKitsuService.getArticle(UtilMethods.getAnimeEpisodesUrl(articleId))
+        when (dataType) {
+
+            UtilStrings.Companion.ARTICLE_DATA_TYPE.ANIME_EPISODES -> {
+                call = mKitsuService.getArticle(UtilMethods.getAnimeEpisodesUrl(articleId))
+            }
+
+            UtilStrings.Companion.ARTICLE_DATA_TYPE.ANIME_CHARACTERS -> {
+                call = mKitsuService.getArticle(UtilMethods.getAnimeCharactersUrl(articleId))
+            }
+            UtilStrings.Companion.ARTICLE_DATA_TYPE.MANGA_CHARACTERS -> {
+                call = mKitsuService.getArticle(UtilMethods.getMangaCharactersUrl(articleId))
+            }
+            UtilStrings.Companion.ARTICLE_DATA_TYPE.MANGA_CHAPTERS -> {
+                call = mKitsuService.getArticle(UtilMethods.getMangaChaptersUtl(articleId))
+            }
+        }
+        call.enqueue(object : Callback<ChaptersCharacters> {
+            override fun onResponse(call: Call<ChaptersCharacters>, response: Response<ChaptersCharacters>) {
+                val articleData = ChaptersCharacters(
+                    response.code() == 200,
+                    response.body()?.errors,
+                    response.body()?.included
+                )
+                articleDataResponse.value = articleData
+            }
+
+            override fun onFailure(call: Call<ChaptersCharacters>, t: Throwable) {
+                val errorsList: MutableList<Error> = mutableListOf()
+                errorsList.add(Error("400", t.message.toString(), "400", t.cause.toString()))
+                val articleData = ChaptersCharacters(false, KitsuError(errorsList),listOf())
+                articleDataResponse.value = articleData
+            }
+
+        })
+
+        return articleDataResponse
+    }
+
+    fun getGenres(dataType: UtilStrings.Companion.ARTICLE_GENRE_TYPE, articleId: String): MutableLiveData<Genres> {
+        val articleDataResponse = MutableLiveData<Genres>()
+        var call: Call<Genres> = mKitsuService.getGenres(UtilMethods.getAnimeGenresUrl(articleId))
+        when (dataType) {
+
+            UtilStrings.Companion.ARTICLE_GENRE_TYPE.ANIME_GENRES -> {
+                call = mKitsuService.getGenres(UtilMethods.getAnimeGenresUrl(articleId))
+            }
+            UtilStrings.Companion.ARTICLE_GENRE_TYPE.MANGA_GENRES -> {
+                call = mKitsuService.getGenres(UtilMethods.getMangaGenresUrl(articleId))
+            }
+        }
+        call.enqueue(object : Callback<Genres> {
+            override fun onResponse(call: Call<Genres>, response: Response<Genres>) {
+                val articleData = Genres(
+                    response.code() == 200,
+                    response.body()?.errors,
+                    response.body()?.data
+                )
+                articleDataResponse.value = articleData
+            }
+
+            override fun onFailure(call: Call<Genres>, t: Throwable) {
+                val errorsList: MutableList<Error> = mutableListOf()
+                errorsList.add(Error("400", t.message.toString(), "400", t.cause.toString()))
+                val articleData = Genres(false, errorsList,listOf())
+                articleDataResponse.value = articleData
+            }
+
+        })
+
+        return articleDataResponse
+    }
+
+
+
     fun getMangaData(
         dataType: MANGA_DATA_TYPE,
         category: String,
@@ -102,16 +180,16 @@ class ApplaudoRemoteDataSource() {
                 call = mKitsuService.getMangaFinished()
             }
             MANGA_DATA_TYPE.CATEGORIES -> {
-                call = mKitsuService.getMangaByCategory(UtilStrings.MANGA_CATEGORIES_URL + category)
+                call = mKitsuService.getManga(UtilStrings.MANGA_CATEGORIES_URL + category)
             }
             MANGA_DATA_TYPE.SEARCH_TEXT -> {
-                call = mKitsuService.getMangaByTextSearch(UtilStrings.MANGA_TEXT_SEARCH_URL + searchText)
+                call = mKitsuService.getManga(UtilStrings.MANGA_TEXT_SEARCH_URL + searchText)
             }
             MANGA_DATA_TYPE.CATEGORIES_SEARCH -> {
-                call = mKitsuService.getMangaByCategoryTextSearch(UtilStrings.MANGA_CATEGORY_TEXT_SEARCH_URL + category)
+                call = mKitsuService.getManga(UtilStrings.MANGA_CATEGORY_TEXT_SEARCH_URL + category)
             }
             MANGA_DATA_TYPE.INDIVIDUAL -> {
-                call = mKitsuService.getMAngaById(UtilStrings.MANGA_BY_ID_URL + articleId)
+                call = mKitsuService.getManga(UtilStrings.MANGA_BY_ID_URL + articleId)
             }
         }
         call.enqueue(object : Callback<MangaArticleData> {

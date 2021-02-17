@@ -12,7 +12,7 @@ import com.applaudo.android.applaudoscodechallenge.domain.models.FavoriteArticle
 import com.applaudo.android.applaudoscodechallenge.ui.activities.ArticleDetailActivity
 import com.applaudo.android.applaudoscodechallenge.ui.activities.MainMenuActivity
 import com.applaudo.android.applaudoscodechallenge.ui.adapters.FavoriteArticleRecyclerAdapter
-import com.applaudo.android.applaudoscodechallenge.utils.UtilStrings
+import com.applaudo.android.applaudoscodechallenge.ui.utils.UtilStrings
 import kotlinx.android.synthetic.main.fragment_favorites.view.*
 
 

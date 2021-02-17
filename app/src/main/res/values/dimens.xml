@@ -21,4 +21,10 @@
     <dimen name="detail_article_top_margin">10dp</dimen>
     <dimen name="detail_article_margin">10dp</dimen>
     <dimen name="detail_article_synopsis_size">13sp</dimen>
+    <dimen name="alert_loader_height">75dp</dimen>
+    <dimen name="arrow_down_width">25dp</dimen>
+    <dimen name="arrow_down_height">25dp</dimen>
+    <dimen name="botton_layout_padding">20dp</dimen>
+    <dimen name="bottom_video_margin">20dp</dimen>
+    <dimen name="bottom_fragment_margin_item_top">5dp</dimen>
 </resources>

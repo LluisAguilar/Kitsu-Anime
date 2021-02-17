@@ -61,6 +61,9 @@ dependencies {
     //Coroutines support for Room
     implementation "androidx.room:room-ktx:2.2.5"
 
+    //Youtube third party library player
+    implementation 'com.pierfrancescosoffritti.androidyoutubeplayer:core:10.0.5'
+
     testImplementation 'junit:junit:4.+'
     androidTestImplementation 'androidx.test.ext:junit:1.1.2'
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.3.0'

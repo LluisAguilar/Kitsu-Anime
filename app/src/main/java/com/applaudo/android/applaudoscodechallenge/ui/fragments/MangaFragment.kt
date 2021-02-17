@@ -16,7 +16,7 @@ import com.applaudo.android.applaudoscodechallenge.domain.models.SearchArticleDa
 import com.applaudo.android.applaudoscodechallenge.ui.activities.ArticleDetailActivity
 import com.applaudo.android.applaudoscodechallenge.ui.activities.MainMenuActivity
 import com.applaudo.android.applaudoscodechallenge.ui.adapters.MangaArticleRecyclerAdapter
-import com.applaudo.android.applaudoscodechallenge.utils.UtilStrings
+import com.applaudo.android.applaudoscodechallenge.ui.utils.UtilStrings
 import kotlinx.android.synthetic.main.fragment_manga.view.*
 import kotlinx.android.synthetic.main.fragment_manga.view.search_back_arrow
 import java.util.ArrayList
@@ -91,14 +91,16 @@ class MangaFragment : Fragment(), MangaArticleRecyclerAdapter.OnArticleItemClick
     }
 
     private fun loadSearchFragment() {
-        try {
-            mFragmentManager.beginTransaction()
-                .add(R.id.manga_fragment_container, mSearchFragment).commit()
-        } catch (isException: IllegalStateException) {
-            isException.printStackTrace()
-            mFragmentManager.beginTransaction()
-                .add(R.id.manga_fragment_container, mSearchFragment)
-                .commitAllowingStateLoss()
+        if (!mSearchFragment.isAdded) {
+            try {
+                mFragmentManager.beginTransaction()
+                    .add(R.id.manga_fragment_container, mSearchFragment).commit()
+            } catch (isException: IllegalStateException) {
+                isException.printStackTrace()
+                mFragmentManager.beginTransaction()
+                    .add(R.id.manga_fragment_container, mSearchFragment)
+                    .commitAllowingStateLoss()
+            }
         }
     }
 
@@ -114,24 +116,32 @@ class MangaFragment : Fragment(), MangaArticleRecyclerAdapter.OnArticleItemClick
         mTrendingArticlesList = mTrendingMangaList
         mMangaArticleTrendingAdapter.updateAdapter(mTrendingArticlesList)
         mView.trending_manga_recycler.adapter = mMangaArticleTrendingAdapter
+        mView.trending_manga_recycler.visibility = View.VISIBLE
+        mView.trending_manga_loader_layout.visibility = View.GONE
     }
 
     fun setOnAirManga(onAirArticleData: ArrayList<ArticleData>) {
         mOnAirArticlesList = onAirArticleData
         mMangaArticleOnAirAdapter.updateAdapter(mOnAirArticlesList)
         mView.on_air_manga_recycler.adapter = mMangaArticleOnAirAdapter
+        mView.on_air_manga_recycler.visibility = View.VISIBLE
+        mView.onair_manga_loader_layout.visibility = View.GONE
     }
 
     fun setFinishedManga(finishedArticleData: ArrayList<ArticleData>) {
         mFinishedArticlesList = finishedArticleData
         mMangaArticleFinishedAdapter.updateAdapter(mFinishedArticlesList)
         mView.finished_manga_recycler.adapter = mMangaArticleFinishedAdapter
+        mView.finished_manga_recycler.visibility = View.VISIBLE
+        mView.finished_manga_loader_layout.visibility = View.GONE
     }
 
     fun setCategoryAnime(mCategoryMangaList: ArrayList<ArticleData>) {
         mFinishedArticlesList = mCategoryMangaList
         mMangaArticleCategoriesAdapter.updateAdapter(mFinishedArticlesList)
         mView.categories_manga_recycler.adapter = mMangaArticleCategoriesAdapter
+        mView.categories_manga_recycler.visibility = View.VISIBLE
+        mView.categories_manga_loader_layout.visibility = View.GONE
     }
 
     companion object {
@@ -208,5 +218,16 @@ class MangaFragment : Fragment(), MangaArticleRecyclerAdapter.OnArticleItemClick
             )
         }
         mSearchFragment.setSearchedData(searchList, UtilStrings.MANGA)
+    }
+
+    fun setLoadersInvisible() {
+        mView.trending_manga_recycler.visibility = View.VISIBLE
+        mView.on_air_manga_recycler.visibility = View.VISIBLE
+        mView.finished_manga_recycler.visibility = View.VISIBLE
+        mView.categories_manga_recycler.visibility = View.VISIBLE
+        mView.trending_manga_loader_layout.visibility = View.GONE
+        mView.onair_manga_loader_layout.visibility = View.GONE
+        mView.finished_manga_loader_layout.visibility = View.GONE
+        mView.categories_manga_loader_layout.visibility = View.GONE
     }
 }
