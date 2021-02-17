@@ -18,6 +18,7 @@ import com.applaudo.android.applaudoscodechallenge.ui.alert.CustomAlerts
 import com.applaudo.android.applaudoscodechallenge.ui.fragments.BottomSheetArticleFragment
 import com.applaudo.android.applaudoscodechallenge.ui.utils.UtilMethods
 import com.applaudo.android.applaudoscodechallenge.ui.utils.UtilStrings
+import com.pierfrancescosoffritti.androidyoutubeplayer.core.player.PlayerConstants
 import com.pierfrancescosoffritti.androidyoutubeplayer.core.player.YouTubePlayer
 import com.pierfrancescosoffritti.androidyoutubeplayer.core.player.listeners.AbstractYouTubePlayerListener
 import com.squareup.picasso.Picasso
@@ -86,10 +87,12 @@ class ArticleDetailActivity : AppCompatActivity() {
             if (mArticleType == UtilStrings.MANGA) {
                 articleType = UtilStrings.Companion.ARTICLE_DATA_TYPE.MANGA_CHAPTERS
             }
+            mAlert.startAlertProgress("")
             mArticleViewModel.getEpisodesCharacters(
                 articleType,
                 mArticleId
             ).observe(this, {
+                mAlert.stopAlertProgress()
                 if (it.status) {
                     if (it.included!!.size > 0) {
                         val articleChaptersList = arrayListOf<ArticleChapterData>()
@@ -126,7 +129,9 @@ class ArticleDetailActivity : AppCompatActivity() {
             if (mArticleType == UtilStrings.MANGA) {
                 articleType = UtilStrings.Companion.ARTICLE_DATA_TYPE.MANGA_CHARACTERS
             }
+            mAlert.startAlertProgress("")
             mArticleViewModel.getEpisodesCharacters(articleType, mArticleId).observe(this, {
+                mAlert.stopAlertProgress()
                 if (it.status) {
                     val articleChaptersList = arrayListOf<ArticleChapterData>()
                     var itemNum = 1
@@ -282,6 +287,15 @@ class ArticleDetailActivity : AppCompatActivity() {
                     override fun onReady(youTubePlayer: YouTubePlayer) {
                         youTubePlayer.loadVideo(articleData.youtubeUrl, 0f)
                         youTubePlayer.pause()
+                    }
+
+                    override fun onStateChange(youTubePlayer: YouTubePlayer, state: PlayerConstants.PlayerState) {
+                        if(state == PlayerConstants.PlayerState.PLAYING){
+                            article_share_fab.hide()
+                        }else if (state == PlayerConstants.PlayerState.PAUSED){
+                            article_share_fab.show()
+                        }
+                        super.onStateChange(youTubePlayer, state)
                     }
                 })
             } else {
