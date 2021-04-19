@@ -20,7 +20,6 @@ abstract class ApplaudoBD() : RoomDatabase() {
 
         fun getDatabaseClient(application: Application): ApplaudoBD {
 
-
             if (mInstance == null) {
                 synchronized(this) {
                     mInstance = Room

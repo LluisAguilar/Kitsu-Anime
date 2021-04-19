@@ -2,20 +2,26 @@ package com.applaudo.android.applaudoscodechallenge.ui.activities
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
-import androidx.viewpager.widget.ViewPager
+import androidx.viewpager2.adapter.FragmentStateAdapter
+import androidx.viewpager2.widget.ViewPager2
 import com.applaudo.android.applaudoscodechallenge.R
 import com.applaudo.android.applaudoscodechallenge.domain.models.ArticleData
 import com.applaudo.android.applaudoscodechallenge.ui.adapters.MenuPagerAdapter
 import com.applaudo.android.applaudoscodechallenge.ui.alert.CustomAlerts
 import com.applaudo.android.applaudoscodechallenge.domain.viewmodels.ArticleViewModel
+import com.applaudo.android.applaudoscodechallenge.ui.fragments.AnimeFragment
+import com.applaudo.android.applaudoscodechallenge.ui.fragments.FavoritesFragment
+import com.applaudo.android.applaudoscodechallenge.ui.fragments.MangaFragment
 import com.applaudo.android.applaudoscodechallenge.ui.utils.UtilMethods
 import com.applaudo.android.applaudoscodechallenge.ui.utils.UtilStrings
 import com.applaudo.android.applaudoscodechallenge.ui.utils.UtilStrings.Companion.categoriesList
+import com.google.android.material.tabs.TabLayoutMediator
 import kotlinx.android.synthetic.main.activity_main.*
 import java.lang.IndexOutOfBoundsException
 
-class MainMenuActivity : AppCompatActivity(), ViewPager.OnPageChangeListener {
+class MainMenuActivity : AppCompatActivity() {
 
     private lateinit var mAlerts: CustomAlerts
     private lateinit var mMenuPagerAdapter: MenuPagerAdapter
@@ -29,6 +35,12 @@ class MainMenuActivity : AppCompatActivity(), ViewPager.OnPageChangeListener {
     private var mTrendingMangaList = arrayListOf<ArticleData>()
     private var mCategoryMangaList = arrayListOf<ArticleData>()
 
+    private val animeFragment = AnimeFragment.getInstance()
+    private val mangaFragment = MangaFragment.getInstance()
+    private val favoritesFragment = FavoritesFragment.getInstance()
+
+    private val fragmentList = listOf(animeFragment, mangaFragment, favoritesFragment)
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
@@ -36,11 +48,51 @@ class MainMenuActivity : AppCompatActivity(), ViewPager.OnPageChangeListener {
         mArticleViewModel = ViewModelProvider(this).get(ArticleViewModel::class.java)
         mAlerts = CustomAlerts(this)
 
-        mMenuPagerAdapter = MenuPagerAdapter(supportFragmentManager, this)
-        mMenuPagerAdapter.saveState()
+        mMenuPagerAdapter = MenuPagerAdapter(fragmentList, this)
+
+        menu_viewpager.orientation = ViewPager2.ORIENTATION_HORIZONTAL
+        menu_viewpager.registerOnPageChangeCallback(object : ViewPager2.OnPageChangeCallback() {
+
+            override fun onPageScrolled(position: Int, positionOffset: Float, positionOffsetPixels: Int) {
+
+            }
+
+            override fun onPageSelected(position: Int) {
+                when (position) {
+
+                    0 -> {
+                        getTrendingAnimeData()
+                    }
+
+                    1 -> {
+                        getTrendingManga()
+                    }
+                    2 -> {
+                        getFavoriteArticles()
+                    }
+                }
+
+            }
+
+            override fun onPageScrollStateChanged(state: Int) {
+
+            }
+
+        })
+
         menu_viewpager.adapter = mMenuPagerAdapter
-        myflights_tabs.setupWithViewPager(menu_viewpager)
-        menu_viewpager.addOnPageChangeListener(this)
+
+        //@TabLayoutMediator used to set pager TAB Title
+        TabLayoutMediator(myflights_tabs, menu_viewpager) { tab, position ->
+            tab.text = getString(R.string.anime)
+            if (position == 0){
+                tab.text = getString(R.string.anime)
+            }else if (position == 1) {
+                tab.text = getString(R.string.manga)
+            }else if (position == 2){
+                tab.text = getString(R.string.favorites)
+            }
+        }.attach()
 
         getTrendingAnimeData()
     }
@@ -53,7 +105,7 @@ class MainMenuActivity : AppCompatActivity(), ViewPager.OnPageChangeListener {
                         if (it.status) {
                             mTrendingAnimeList.clear()
                             mTrendingAnimeList = UtilMethods.getAnimeData(it.data!!)
-                            mMenuPagerAdapter.animeFragment.setTrendingAnime(mTrendingAnimeList)
+                            animeFragment.setTrendingAnime(mTrendingAnimeList)
                             //Once trending anime is called, we call finished anime
                             getOnAirAnimeData()
                         } else {
@@ -62,7 +114,7 @@ class MainMenuActivity : AppCompatActivity(), ViewPager.OnPageChangeListener {
 
                     })
         }else {
-            mMenuPagerAdapter.animeFragment.setLoadersInvisible()
+            animeFragment.setLoadersInvisible()
         }
     }
 
@@ -70,7 +122,7 @@ class MainMenuActivity : AppCompatActivity(), ViewPager.OnPageChangeListener {
         mArticleViewModel.getAnime(UtilStrings.Companion.ANIME_DATA_TYPE.ONAIR, "", "", "", "")
                 .observe(this, {
                     if (it.status) {
-                        mMenuPagerAdapter.animeFragment.setOnAirAnime(UtilMethods.getAnimeData(it.data!!))
+                        animeFragment.setOnAirAnime(UtilMethods.getAnimeData(it.data!!))
                         getStreamersList()
                     } else {
                         mAlerts.alertInformation(it.errors?.errors?.get(0)?.detail.toString())
@@ -80,7 +132,7 @@ class MainMenuActivity : AppCompatActivity(), ViewPager.OnPageChangeListener {
 
     private fun getStreamersList() {
         mArticleViewModel.getStreamersImage().observe(this, {
-            mMenuPagerAdapter.animeFragment.setStreamersList(it)
+            animeFragment.setStreamersList(it)
             getAnimeByCategory()
         })
     }
@@ -95,7 +147,7 @@ class MainMenuActivity : AppCompatActivity(), ViewPager.OnPageChangeListener {
                     .observe(this, {
                         if (it.status) {
                             if (mCategoriesAnimeCount == categoriesList.size) {
-                                mMenuPagerAdapter.animeFragment.setCategoryAnime(mCategoryAnimeList)
+                                animeFragment.setCategoryAnime(mCategoryAnimeList)
                                 mCategoriesAnimeCount = 0
                             } else {
                                 mCategoryAnimeList.add(UtilMethods.getAnimeData(it.data!!).get(0))
@@ -107,7 +159,7 @@ class MainMenuActivity : AppCompatActivity(), ViewPager.OnPageChangeListener {
                     })
         } catch (e: IndexOutOfBoundsException) {
             e.printStackTrace()
-            mMenuPagerAdapter.animeFragment.setCategoryAnime(mCategoryAnimeList)
+            animeFragment.setCategoryAnime(mCategoryAnimeList)
             mCategoriesAnimeCount = 0
         }
 
@@ -122,7 +174,7 @@ class MainMenuActivity : AppCompatActivity(), ViewPager.OnPageChangeListener {
                         if (it.status) {
                             mTrendingMangaList.clear()
                             mTrendingMangaList = UtilMethods.getMangaData(it.data)
-                            mMenuPagerAdapter.mangaFragment.setTrendingManga(mTrendingMangaList)
+                            mangaFragment.setTrendingManga(mTrendingMangaList)
                             //Once trending manga is called, we call on air manga
                             getOnAirMangaData()
                         } else {
@@ -131,7 +183,7 @@ class MainMenuActivity : AppCompatActivity(), ViewPager.OnPageChangeListener {
 
                     })
         }else {
-            mMenuPagerAdapter.mangaFragment.setLoadersInvisible()
+            mangaFragment.setLoadersInvisible()
         }
     }
 
@@ -139,7 +191,7 @@ class MainMenuActivity : AppCompatActivity(), ViewPager.OnPageChangeListener {
         mArticleViewModel.getManga(UtilStrings.Companion.MANGA_DATA_TYPE.ONAIR, "", "", "")
                 .observe(this, {
                     if (it.status) {
-                        mMenuPagerAdapter.mangaFragment.setOnAirManga(UtilMethods.getMangaData(it.data))
+                        mangaFragment.setOnAirManga(UtilMethods.getMangaData(it.data))
                         getFinishedMangaData()
                     } else {
                         mAlerts.alertInformation(it.errors?.errors?.get(0)?.detail.toString())
@@ -151,7 +203,7 @@ class MainMenuActivity : AppCompatActivity(), ViewPager.OnPageChangeListener {
         mArticleViewModel.getManga(UtilStrings.Companion.MANGA_DATA_TYPE.FINISHED, "", "", "")
                 .observe(this, {
                     if (it.status) {
-                        mMenuPagerAdapter.mangaFragment.setFinishedManga(UtilMethods.getMangaData(it.data))
+                        mangaFragment.setFinishedManga(UtilMethods.getMangaData(it.data))
                         getMangaByCategory()
                     } else {
                         mAlerts.alertInformation(it.errors?.errors?.get(0)?.detail.toString())
@@ -169,7 +221,7 @@ class MainMenuActivity : AppCompatActivity(), ViewPager.OnPageChangeListener {
                     .observe(this, {
                         if (it.status) {
                             if (mCategoriesMangaCount == categoriesList.size) {
-                                mMenuPagerAdapter.mangaFragment.setCategoryAnime(mCategoryMangaList)
+                                mangaFragment.setCategoryAnime(mCategoryMangaList)
                                 mCategoriesMangaCount = 0
                                 getStreamersList()
                             } else {
@@ -183,41 +235,16 @@ class MainMenuActivity : AppCompatActivity(), ViewPager.OnPageChangeListener {
                     })
         } catch (e: IndexOutOfBoundsException) {
             e.printStackTrace()
-            mMenuPagerAdapter.mangaFragment.setCategoryAnime(mCategoryMangaList)
+            mangaFragment.setCategoryAnime(mCategoryMangaList)
             mCategoriesMangaCount = 0
-        }
-
-    }
-
-    override fun onPageScrolled(position: Int, positionOffset: Float, positionOffsetPixels: Int) {
-
-    }
-
-    override fun onPageSelected(position: Int) {
-        when (position) {
-
-            0 -> {
-                getTrendingAnimeData()
-            }
-
-            1 -> {
-                getTrendingManga()
-            }
-            2 -> {
-                getFavoriteArticles()
-            }
         }
 
     }
 
     private fun getFavoriteArticles() {
         mArticleViewModel.getFavorites().observe(this, {
-            mMenuPagerAdapter.favoritesFragment.setFavoriteArticlesInView(UtilMethods.favoriteArticleEntityToFavoriteArticleModel(it))
+            favoritesFragment.setFavoriteArticlesInView(UtilMethods.favoriteArticleEntityToFavoriteArticleModel(it))
         })
-    }
-
-    override fun onPageScrollStateChanged(state: Int) {
-
     }
 
     fun getSearchTextAnime(newText: String?) {
@@ -225,7 +252,7 @@ class MainMenuActivity : AppCompatActivity(), ViewPager.OnPageChangeListener {
             mArticleViewModel.getAnime(UtilStrings.Companion.ANIME_DATA_TYPE.SEARCH_TEXT, "", newText, "", "")
                     .observe(this, {
                         if (it.status) {
-                            mMenuPagerAdapter.animeFragment.setSearchedAnime(UtilMethods.getAnimeData(it.data!!))
+                            animeFragment.setSearchedAnime(UtilMethods.getAnimeData(it.data!!))
                         } else {
                             mAlerts.alertInformation(it.errors?.errors?.get(0)?.detail.toString())
                         }
@@ -238,7 +265,7 @@ class MainMenuActivity : AppCompatActivity(), ViewPager.OnPageChangeListener {
             mArticleViewModel.getManga(UtilStrings.Companion.MANGA_DATA_TYPE.SEARCH_TEXT, "", newText, "")
                     .observe(this, {
                         if (it.status) {
-                            mMenuPagerAdapter.mangaFragment.setSearchedManga(UtilMethods.getMangaData(it.data))
+                            mangaFragment.setSearchedManga(UtilMethods.getMangaData(it.data))
                         } else {
                             mAlerts.alertInformation(it.errors?.errors?.get(0)?.detail.toString())
                         }
@@ -253,7 +280,7 @@ class MainMenuActivity : AppCompatActivity(), ViewPager.OnPageChangeListener {
                 "", "", ""
         ).observe(this, {
             if (it.status) {
-                mMenuPagerAdapter.animeFragment.setCategorySearched(UtilMethods.getAnimeData(it.data!!))
+                animeFragment.setCategorySearched(UtilMethods.getAnimeData(it.data!!))
             } else {
                 mAlerts.alertInformation(it.errors?.errors?.get(0)?.detail.toString())
             }
@@ -263,7 +290,7 @@ class MainMenuActivity : AppCompatActivity(), ViewPager.OnPageChangeListener {
     fun getSearchAnimeByStreamer(streamer: String) {
         mArticleViewModel.getAnime(UtilStrings.Companion.ANIME_DATA_TYPE.STREAMER, "", "", "", streamer).observe(this, {
             if (it.status) {
-                mMenuPagerAdapter.animeFragment.setCategorySearched(UtilMethods.getAnimeData(it.data!!))
+                animeFragment.setCategorySearched(UtilMethods.getAnimeData(it.data!!))
             } else {
                 mAlerts.alertInformation(it.errors?.errors?.get(0)?.detail.toString())
             }
@@ -277,7 +304,7 @@ class MainMenuActivity : AppCompatActivity(), ViewPager.OnPageChangeListener {
                 "", ""
         ).observe(this, {
             if (it.status) {
-                mMenuPagerAdapter.mangaFragment.setCategorySearched(UtilMethods.getMangaData(it.data))
+                mangaFragment.setCategorySearched(UtilMethods.getMangaData(it.data))
             } else {
                 mAlerts.alertInformation(it.errors?.errors?.get(0)?.detail.toString())
             }

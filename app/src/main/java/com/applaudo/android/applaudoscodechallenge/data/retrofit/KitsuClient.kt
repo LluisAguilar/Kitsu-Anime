@@ -27,7 +27,7 @@ class KitsuClient {
     init {
         val okHttpClientBuilder = OkHttpClient.Builder()
         okHttpClientBuilder
-                .addInterceptor(AuthInterceptor())
+            .addInterceptor(AuthInterceptor())
             .connectTimeout(30, TimeUnit.SECONDS)
             .readTimeout(30, TimeUnit.SECONDS)
             .writeTimeout(30, TimeUnit.SECONDS)
