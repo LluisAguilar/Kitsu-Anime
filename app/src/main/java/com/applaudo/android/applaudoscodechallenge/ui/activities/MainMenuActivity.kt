@@ -19,6 +19,7 @@ import com.applaudo.android.applaudoscodechallenge.ui.utils.UtilStrings
 import com.applaudo.android.applaudoscodechallenge.ui.utils.UtilStrings.Companion.categoriesList
 import com.google.android.material.tabs.TabLayoutMediator
 import kotlinx.android.synthetic.main.activity_main.*
+import java.lang.Exception
 import java.lang.IndexOutOfBoundsException
 
 class MainMenuActivity : AppCompatActivity() {
@@ -53,7 +54,11 @@ class MainMenuActivity : AppCompatActivity() {
         menu_viewpager.orientation = ViewPager2.ORIENTATION_HORIZONTAL
         menu_viewpager.registerOnPageChangeCallback(object : ViewPager2.OnPageChangeCallback() {
 
-            override fun onPageScrolled(position: Int, positionOffset: Float, positionOffsetPixels: Int) {
+            override fun onPageScrolled(
+                position: Int,
+                positionOffset: Float,
+                positionOffsetPixels: Int
+            ) {
 
             }
 
@@ -85,11 +90,11 @@ class MainMenuActivity : AppCompatActivity() {
         //@TabLayoutMediator used to set pager TAB Title
         TabLayoutMediator(myflights_tabs, menu_viewpager) { tab, position ->
             tab.text = getString(R.string.anime)
-            if (position == 0){
+            if (position == 0) {
                 tab.text = getString(R.string.anime)
-            }else if (position == 1) {
+            } else if (position == 1) {
                 tab.text = getString(R.string.manga)
-            }else if (position == 2){
+            } else if (position == 2) {
                 tab.text = getString(R.string.favorites)
             }
         }.attach()
@@ -100,34 +105,40 @@ class MainMenuActivity : AppCompatActivity() {
     //Call Trending anime data
     fun getTrendingAnimeData() {
         if (mTrendingAnimeList.size == 0) {
-            mArticleViewModel.getAnime(UtilStrings.Companion.ANIME_DATA_TYPE.TRENDING, "", "", "", "")
-                    .observe(this, {
-                        if (it.status) {
-                            mTrendingAnimeList.clear()
-                            mTrendingAnimeList = UtilMethods.getAnimeData(it.data!!)
-                            animeFragment.setTrendingAnime(mTrendingAnimeList)
-                            //Once trending anime is called, we call finished anime
-                            getOnAirAnimeData()
-                        } else {
-                            mAlerts.alertInformation(it.errors?.errors?.get(0)?.detail.toString())
-                        }
+            mArticleViewModel.getAnime(
+                UtilStrings.Companion.ANIME_DATA_TYPE.TRENDING,
+                "",
+                "",
+                "",
+                ""
+            )
+                .observe(this, {
+                    if (it.status) {
+                        mTrendingAnimeList.clear()
+                        mTrendingAnimeList = UtilMethods.getAnimeData(it.data!!)
+                        animeFragment.setTrendingAnime(mTrendingAnimeList)
+                        //Once trending anime is called, we call finished anime
+                        getOnAirAnimeData()
+                    } else {
+                        mAlerts.alertInformation(it.errors?.errors?.get(0)?.detail.toString())
+                    }
 
-                    })
-        }else {
+                })
+        } else {
             animeFragment.setLoadersInvisible()
         }
     }
 
     private fun getOnAirAnimeData() {
         mArticleViewModel.getAnime(UtilStrings.Companion.ANIME_DATA_TYPE.ONAIR, "", "", "", "")
-                .observe(this, {
-                    if (it.status) {
-                        animeFragment.setOnAirAnime(UtilMethods.getAnimeData(it.data!!))
-                        getStreamersList()
-                    } else {
-                        mAlerts.alertInformation(it.errors?.errors?.get(0)?.detail.toString())
-                    }
-                })
+            .observe(this, {
+                if (it.status) {
+                    animeFragment.setOnAirAnime(UtilMethods.getAnimeData(it.data!!))
+                    getStreamersList()
+                } else {
+                    mAlerts.alertInformation(it.errors?.errors?.get(0)?.detail.toString())
+                }
+            })
     }
 
     private fun getStreamersList() {
@@ -140,23 +151,24 @@ class MainMenuActivity : AppCompatActivity() {
     private fun getAnimeByCategory() {
         try {
             mArticleViewModel.getAnime(
-                    UtilStrings.Companion.ANIME_DATA_TYPE.CATEGORIES,
-                    categoriesList.get(mCategoriesAnimeCount),
-                    "", "", ""
+                UtilStrings.Companion.ANIME_DATA_TYPE.CATEGORIES,
+                categoriesList.get(mCategoriesAnimeCount),
+                "", "", ""
             )
-                    .observe(this, {
-                        if (it.status) {
-                            if (mCategoriesAnimeCount == categoriesList.size) {
-                                animeFragment.setCategoryAnime(mCategoryAnimeList)
-                                mCategoriesAnimeCount = 0
-                            } else {
-                                mCategoryAnimeList.add(UtilMethods.getAnimeData(it.data!!).get(0))
-                                mCategoryAnimeList.get(mCategoriesAnimeCount).title = categoriesList.get(mCategoriesAnimeCount)
-                                mCategoriesAnimeCount++
-                                getAnimeByCategory()
-                            }
+                .observe(this, {
+                    if (it.status) {
+                        if (mCategoriesAnimeCount == categoriesList.size) {
+                            animeFragment.setCategoryAnime(mCategoryAnimeList)
+                            mCategoriesAnimeCount = 0
+                        } else {
+                            mCategoryAnimeList.add(UtilMethods.getAnimeData(it.data!!).get(0))
+                            mCategoryAnimeList.get(mCategoriesAnimeCount).title =
+                                categoriesList.get(mCategoriesAnimeCount)
+                            mCategoriesAnimeCount++
+                            getAnimeByCategory()
                         }
-                    })
+                    }
+                })
         } catch (e: IndexOutOfBoundsException) {
             e.printStackTrace()
             animeFragment.setCategoryAnime(mCategoryAnimeList)
@@ -170,70 +182,72 @@ class MainMenuActivity : AppCompatActivity() {
     fun getTrendingManga() {
         if (mTrendingMangaList.size == 0) {
             mArticleViewModel.getManga(UtilStrings.Companion.MANGA_DATA_TYPE.TRENDING, "", "", "")
-                    .observe(this, {
-                        if (it.status) {
-                            mTrendingMangaList.clear()
-                            mTrendingMangaList = UtilMethods.getMangaData(it.data)
-                            mangaFragment.setTrendingManga(mTrendingMangaList)
-                            //Once trending manga is called, we call on air manga
-                            getOnAirMangaData()
-                        } else {
-                            mAlerts.alertInformation(it.errors?.errors?.get(0)?.detail.toString())
-                        }
+                .observe(this, {
+                    if (it.status) {
+                        mTrendingMangaList.clear()
+                        mTrendingMangaList = UtilMethods.getMangaData(it.data)
+                        mangaFragment.setTrendingManga(mTrendingMangaList)
+                        //Once trending manga is called, we call on air manga
+                        getOnAirMangaData()
+                    } else {
+                        mAlerts.alertInformation(it.errors?.errors?.get(0)?.detail.toString())
+                    }
 
-                    })
-        }else {
+                })
+        } else {
             mangaFragment.setLoadersInvisible()
         }
     }
 
     private fun getOnAirMangaData() {
         mArticleViewModel.getManga(UtilStrings.Companion.MANGA_DATA_TYPE.ONAIR, "", "", "")
-                .observe(this, {
-                    if (it.status) {
-                        mangaFragment.setOnAirManga(UtilMethods.getMangaData(it.data))
-                        getFinishedMangaData()
-                    } else {
-                        mAlerts.alertInformation(it.errors?.errors?.get(0)?.detail.toString())
-                    }
-                })
+            .observe(this, {
+                if (it.status) {
+                    mangaFragment.setOnAirManga(UtilMethods.getMangaData(it.data))
+                    getFinishedMangaData()
+                } else {
+                    mAlerts.alertInformation(it.errors?.errors?.get(0)?.detail.toString())
+                }
+            })
     }
 
     private fun getFinishedMangaData() {
         mArticleViewModel.getManga(UtilStrings.Companion.MANGA_DATA_TYPE.FINISHED, "", "", "")
-                .observe(this, {
-                    if (it.status) {
-                        mangaFragment.setFinishedManga(UtilMethods.getMangaData(it.data))
-                        getMangaByCategory()
-                    } else {
-                        mAlerts.alertInformation(it.errors?.errors?.get(0)?.detail.toString())
-                    }
-                })
+            .observe(this, {
+                if (it.status) {
+                    mangaFragment.setFinishedManga(UtilMethods.getMangaData(it.data))
+                    getMangaByCategory()
+                } else {
+                    mAlerts.alertInformation(it.errors?.errors?.get(0)?.detail.toString())
+                }
+            })
     }
 
     private fun getMangaByCategory() {
         try {
             mArticleViewModel.getManga(
-                    UtilStrings.Companion.MANGA_DATA_TYPE.CATEGORIES,
-                    categoriesList.get(mCategoriesMangaCount),
-                    "", ""
+                UtilStrings.Companion.MANGA_DATA_TYPE.CATEGORIES,
+                categoriesList.get(mCategoriesMangaCount),
+                "", ""
             )
-                    .observe(this, {
-                        if (it.status) {
-                            if (mCategoriesMangaCount == categoriesList.size) {
-                                mangaFragment.setCategoryAnime(mCategoryMangaList)
-                                mCategoriesMangaCount = 0
-                                getStreamersList()
-                            } else {
+                .observe(this, {
+                    if (it.status) {
+                        if (mCategoriesMangaCount == categoriesList.size) {
+                            mangaFragment.setCategoryAnime(mCategoryMangaList)
+                            mCategoriesMangaCount = 0
+                            getStreamersList()
+                        } else {
+                            if (it.data.size > 0){
                                 mCategoryMangaList.add(UtilMethods.getMangaData(it.data).get(0))
                                 mCategoryMangaList.get(mCategoriesMangaCount).title =
-                                        categoriesList.get(mCategoriesMangaCount)
+                                    categoriesList.get(mCategoriesMangaCount)
                                 mCategoriesMangaCount++
                                 getMangaByCategory()
                             }
                         }
-                    })
-        } catch (e: IndexOutOfBoundsException) {
+                    }
+                })
+        } catch (e: Exception) {
             e.printStackTrace()
             mangaFragment.setCategoryAnime(mCategoryMangaList)
             mCategoriesMangaCount = 0
@@ -243,41 +257,56 @@ class MainMenuActivity : AppCompatActivity() {
 
     private fun getFavoriteArticles() {
         mArticleViewModel.getFavorites().observe(this, {
-            favoritesFragment.setFavoriteArticlesInView(UtilMethods.favoriteArticleEntityToFavoriteArticleModel(it))
+            favoritesFragment.setFavoriteArticlesInView(
+                UtilMethods.favoriteArticleEntityToFavoriteArticleModel(
+                    it
+                )
+            )
         })
     }
 
     fun getSearchTextAnime(newText: String?) {
         if (newText != null) {
-            mArticleViewModel.getAnime(UtilStrings.Companion.ANIME_DATA_TYPE.SEARCH_TEXT, "", newText, "", "")
-                    .observe(this, {
-                        if (it.status) {
-                            animeFragment.setSearchedAnime(UtilMethods.getAnimeData(it.data!!))
-                        } else {
-                            mAlerts.alertInformation(it.errors?.errors?.get(0)?.detail.toString())
-                        }
-                    })
+            mArticleViewModel.getAnime(
+                UtilStrings.Companion.ANIME_DATA_TYPE.SEARCH_TEXT,
+                "",
+                newText,
+                "",
+                ""
+            )
+                .observe(this, {
+                    if (it.status) {
+                        animeFragment.setSearchedAnime(UtilMethods.getAnimeData(it.data!!))
+                    } else {
+                        mAlerts.alertInformation(it.errors?.errors?.get(0)?.detail.toString())
+                    }
+                })
         }
     }
 
     fun getSearchTextManga(newText: String?) {
         if (newText != null) {
-            mArticleViewModel.getManga(UtilStrings.Companion.MANGA_DATA_TYPE.SEARCH_TEXT, "", newText, "")
-                    .observe(this, {
-                        if (it.status) {
-                            mangaFragment.setSearchedManga(UtilMethods.getMangaData(it.data))
-                        } else {
-                            mAlerts.alertInformation(it.errors?.errors?.get(0)?.detail.toString())
-                        }
-                    })
+            mArticleViewModel.getManga(
+                UtilStrings.Companion.MANGA_DATA_TYPE.SEARCH_TEXT,
+                "",
+                newText,
+                ""
+            )
+                .observe(this, {
+                    if (it.status) {
+                        mangaFragment.setSearchedManga(UtilMethods.getMangaData(it.data))
+                    } else {
+                        mAlerts.alertInformation(it.errors?.errors?.get(0)?.detail.toString())
+                    }
+                })
         }
     }
 
     fun getSearchAnimeByCategory(category: String) {
         mArticleViewModel.getAnime(
-                UtilStrings.Companion.ANIME_DATA_TYPE.CATEGORIES_SEARCH,
-                category,
-                "", "", ""
+            UtilStrings.Companion.ANIME_DATA_TYPE.CATEGORIES_SEARCH,
+            category,
+            "", "", ""
         ).observe(this, {
             if (it.status) {
                 animeFragment.setCategorySearched(UtilMethods.getAnimeData(it.data!!))
@@ -288,7 +317,13 @@ class MainMenuActivity : AppCompatActivity() {
     }
 
     fun getSearchAnimeByStreamer(streamer: String) {
-        mArticleViewModel.getAnime(UtilStrings.Companion.ANIME_DATA_TYPE.STREAMER, "", "", "", streamer).observe(this, {
+        mArticleViewModel.getAnime(
+            UtilStrings.Companion.ANIME_DATA_TYPE.STREAMER,
+            "",
+            "",
+            "",
+            streamer
+        ).observe(this, {
             if (it.status) {
                 animeFragment.setCategorySearched(UtilMethods.getAnimeData(it.data!!))
             } else {
@@ -299,9 +334,9 @@ class MainMenuActivity : AppCompatActivity() {
 
     fun getSearchMangaByCategory(category: String) {
         mArticleViewModel.getManga(
-                UtilStrings.Companion.MANGA_DATA_TYPE.CATEGORIES_SEARCH,
-                category,
-                "", ""
+            UtilStrings.Companion.MANGA_DATA_TYPE.CATEGORIES_SEARCH,
+            category,
+            "", ""
         ).observe(this, {
             if (it.status) {
                 mangaFragment.setCategorySearched(UtilMethods.getMangaData(it.data))
