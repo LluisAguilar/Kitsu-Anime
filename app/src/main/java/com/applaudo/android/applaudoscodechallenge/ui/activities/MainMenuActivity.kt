@@ -2,15 +2,13 @@ package com.applaudo.android.applaudoscodechallenge.ui.activities
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
-import androidx.viewpager2.adapter.FragmentStateAdapter
 import androidx.viewpager2.widget.ViewPager2
 import com.applaudo.android.applaudoscodechallenge.R
 import com.applaudo.android.applaudoscodechallenge.domain.models.ArticleData
 import com.applaudo.android.applaudoscodechallenge.ui.adapters.MenuPagerAdapter
 import com.applaudo.android.applaudoscodechallenge.ui.alert.CustomAlerts
-import com.applaudo.android.applaudoscodechallenge.domain.viewmodels.ArticleViewModel
+import com.applaudo.android.applaudoscodechallenge.ui.viewmodels.ArticleViewModel
 import com.applaudo.android.applaudoscodechallenge.ui.fragments.AnimeFragment
 import com.applaudo.android.applaudoscodechallenge.ui.fragments.FavoritesFragment
 import com.applaudo.android.applaudoscodechallenge.ui.fragments.MangaFragment

@@ -14,6 +14,9 @@ import com.applaudo.android.applaudoscodechallenge.ui.utils.UtilStrings.Companio
 import com.applaudo.android.applaudoscodechallenge.ui.utils.UtilStrings.Companion.MANGA_DATA_TYPE
 import com.blumonpay.interjet.data.retrofit.KitsuClient
 import com.blumonpay.interjet.data.retrofit.KitsuService
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
@@ -27,7 +30,6 @@ class ApplaudoRemoteDataSource() {
     init {
         mKitsuService = mKitsuClient.getService()
     }
-
 
     fun getAnimeData(
         dataType: ANIME_DATA_TYPE,
@@ -62,24 +64,28 @@ class ApplaudoRemoteDataSource() {
             }
 
         }
-        call.enqueue(object : Callback<AnimeArticleData> {
-            override fun onResponse(call: Call<AnimeArticleData>, response: Response<AnimeArticleData>) {
-                val articleData = AnimeArticleData(
-                    response.code() == 200,
-                    response.body()?.data!!,
-                    response.body()?.errors
-                )
-                articleDataResponse.value = articleData
-            }
+        
+        CoroutineScope(Dispatchers.IO).launch {
+            call.enqueue(object : Callback<AnimeArticleData> {
+                override fun onResponse(call: Call<AnimeArticleData>, response: Response<AnimeArticleData>) {
+                    val articleData = AnimeArticleData(
+                        response.code() == 200,
+                        response.body()?.data!!,
+                        response.body()?.errors
+                    )
+                    articleDataResponse.value = articleData
+                }
 
-            override fun onFailure(call: Call<AnimeArticleData>, t: Throwable) {
-                val errorsList: MutableList<Error> = mutableListOf()
-                errorsList.add(Error("400", t.message.toString(), "400", t.cause.toString()))
-                val articleData = AnimeArticleData(false, listOf(), KitsuError(errorsList))
-                articleDataResponse.value = articleData
-            }
+                override fun onFailure(call: Call<AnimeArticleData>, t: Throwable) {
+                    val errorsList: MutableList<Error> = mutableListOf()
+                    errorsList.add(Error("400", t.message.toString(), "400", t.cause.toString()))
+                    val articleData = AnimeArticleData(false, listOf(), KitsuError(errorsList))
+                    articleDataResponse.value = articleData
+                }
 
-        })
+            })
+            
+        }
 
         return articleDataResponse
     }
@@ -103,29 +109,35 @@ class ApplaudoRemoteDataSource() {
                 call = mKitsuService.getArticle(UtilMethods.getMangaChaptersUtl(articleId))
             }
         }
-        call.enqueue(object : Callback<ChaptersCharacters> {
-            override fun onResponse(call: Call<ChaptersCharacters>, response: Response<ChaptersCharacters>) {
-                val articleData = ChaptersCharacters(
-                    response.code() == 200,
-                    response.body()?.errors,
-                    response.body()?.included
-                )
-                articleDataResponse.value = articleData
-            }
 
-            override fun onFailure(call: Call<ChaptersCharacters>, t: Throwable) {
-                val errorsList: MutableList<Error> = mutableListOf()
-                errorsList.add(Error("400", t.message.toString(), "400", t.cause.toString()))
-                val articleData = ChaptersCharacters(false, KitsuError(errorsList),listOf())
-                articleDataResponse.value = articleData
-            }
+        CoroutineScope(Dispatchers.IO).launch {
+            call.enqueue(object : Callback<ChaptersCharacters> {
+                override fun onResponse(
+                    call: Call<ChaptersCharacters>,
+                    response: Response<ChaptersCharacters>
+                ) {
+                    val articleData = ChaptersCharacters(
+                        response.code() == 200,
+                        response.body()?.errors,
+                        response.body()?.included
+                    )
+                    articleDataResponse.value = articleData
+                }
 
-        })
+                override fun onFailure(call: Call<ChaptersCharacters>, t: Throwable) {
+                    val errorsList: MutableList<Error> = mutableListOf()
+                    errorsList.add(Error("400", t.message.toString(), "400", t.cause.toString()))
+                    val articleData = ChaptersCharacters(false, KitsuError(errorsList), listOf())
+                    articleDataResponse.value = articleData
+                }
+
+            })
+        }
 
         return articleDataResponse
     }
 
-    fun getGenres(dataType: UtilStrings.Companion.ARTICLE_GENRE_TYPE, articleId: String): MutableLiveData<Genres> {
+     fun getGenres(dataType: UtilStrings.Companion.ARTICLE_GENRE_TYPE, articleId: String): MutableLiveData<Genres> {
         val articleDataResponse = MutableLiveData<Genres>()
         var call: Call<Genres> = mKitsuService.getGenres(UtilMethods.getAnimeGenresUrl(articleId))
         when (dataType) {
@@ -137,24 +149,27 @@ class ApplaudoRemoteDataSource() {
                 call = mKitsuService.getGenres(UtilMethods.getMangaGenresUrl(articleId))
             }
         }
-        call.enqueue(object : Callback<Genres> {
-            override fun onResponse(call: Call<Genres>, response: Response<Genres>) {
-                val articleData = Genres(
-                    response.code() == 200,
-                    response.body()?.errors,
-                    response.body()?.data
-                )
-                articleDataResponse.value = articleData
-            }
 
-            override fun onFailure(call: Call<Genres>, t: Throwable) {
-                val errorsList: MutableList<Error> = mutableListOf()
-                errorsList.add(Error("400", t.message.toString(), "400", t.cause.toString()))
-                val articleData = Genres(false, errorsList,listOf())
-                articleDataResponse.value = articleData
-            }
+         CoroutineScope(Dispatchers.IO).launch {
+             call.enqueue(object : Callback<Genres> {
+                 override fun onResponse(call: Call<Genres>, response: Response<Genres>) {
+                     val articleData = Genres(
+                         response.code() == 200,
+                         response.body()?.errors,
+                         response.body()?.data
+                     )
+                     articleDataResponse.value = articleData
+                 }
 
-        })
+                 override fun onFailure(call: Call<Genres>, t: Throwable) {
+                     val errorsList: MutableList<Error> = mutableListOf()
+                     errorsList.add(Error("400", t.message.toString(), "400", t.cause.toString()))
+                     val articleData = Genres(false, errorsList, listOf())
+                     articleDataResponse.value = articleData
+                 }
+
+             })
+         }
 
         return articleDataResponse
     }
@@ -192,24 +207,30 @@ class ApplaudoRemoteDataSource() {
                 call = mKitsuService.getManga(UtilStrings.MANGA_BY_ID_URL + articleId)
             }
         }
-        call.enqueue(object : Callback<MangaArticleData> {
-            override fun onResponse(call: Call<MangaArticleData>, response: Response<MangaArticleData>) {
-                val articleData = MangaArticleData(
-                    response.code() == 200,
-                    response.body()?.data!!,
-                    response.body()?.errors
-                )
-                articleDataResponse.value = articleData
-            }
 
-            override fun onFailure(call: Call<MangaArticleData>, t: Throwable) {
-                val errorsList: MutableList<Error> = mutableListOf()
-                errorsList.add(Error("400", t.message.toString(), "400", t.cause.toString()))
-                val articleData = MangaArticleData(false, listOf(), KitsuError(errorsList))
-                articleDataResponse.value = articleData
-            }
+        CoroutineScope(Dispatchers.IO).launch {
+            call.enqueue(object : Callback<MangaArticleData> {
+                override fun onResponse(
+                    call: Call<MangaArticleData>,
+                    response: Response<MangaArticleData>
+                ) {
+                    val articleData = MangaArticleData(
+                        response.code() == 200,
+                        response.body()?.data!!,
+                        response.body()?.errors
+                    )
+                    articleDataResponse.value = articleData
+                }
 
-        })
+                override fun onFailure(call: Call<MangaArticleData>, t: Throwable) {
+                    val errorsList: MutableList<Error> = mutableListOf()
+                    errorsList.add(Error("400", t.message.toString(), "400", t.cause.toString()))
+                    val articleData = MangaArticleData(false, listOf(), KitsuError(errorsList))
+                    articleDataResponse.value = articleData
+                }
+
+            })
+        }
 
         return articleDataResponse
     }

@@ -4,16 +4,13 @@ import android.content.Intent
 import android.os.Build
 import android.os.Bundle
 import android.text.Html
-import android.util.Log
 import android.view.View
 import androidx.appcompat.app.AppCompatActivity
-import androidx.core.view.ViewCompat
 import androidx.lifecycle.ViewModelProvider
-import androidx.room.util.StringUtil
 import com.applaudo.android.applaudoscodechallenge.R
 import com.applaudo.android.applaudoscodechallenge.domain.models.ArticleChapterData
 import com.applaudo.android.applaudoscodechallenge.domain.models.ArticleData
-import com.applaudo.android.applaudoscodechallenge.domain.viewmodels.ArticleViewModel
+import com.applaudo.android.applaudoscodechallenge.ui.viewmodels.ArticleViewModel
 import com.applaudo.android.applaudoscodechallenge.ui.alert.CustomAlerts
 import com.applaudo.android.applaudoscodechallenge.ui.fragments.BottomSheetArticleFragment
 import com.applaudo.android.applaudoscodechallenge.ui.utils.UtilMethods
