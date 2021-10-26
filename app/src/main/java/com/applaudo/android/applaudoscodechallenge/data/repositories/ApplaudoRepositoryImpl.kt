@@ -6,14 +6,17 @@ import androidx.lifecycle.MutableLiveData
 import com.applaudo.android.applaudoscodechallenge.data.db.entities.ArticlesFavoriteEntity
 import com.applaudo.android.applaudoscodechallenge.data.repositories.datasource.ApplaudoLocalDataSource
 import com.applaudo.android.applaudoscodechallenge.data.repositories.datasource.ApplaudoRemoteDataSource
+import com.applaudo.android.applaudoscodechallenge.data.repositories.helpers.AnimeArticleDataToAnimeArticleDataUseCase
 import com.applaudo.android.applaudoscodechallenge.data.retrofit.response.anime.AnimeArticleData
 import com.applaudo.android.applaudoscodechallenge.data.retrofit.response.chapters_characters.ChaptersCharacters
 import com.applaudo.android.applaudoscodechallenge.data.retrofit.response.genres.Genres
 import com.applaudo.android.applaudoscodechallenge.data.retrofit.response.manga.MangaArticleData
 import com.applaudo.android.applaudoscodechallenge.domain.models.StreamerData
+import com.applaudo.android.applaudoscodechallenge.domain.models.anime.AnimeArticleDataUseCase
 import com.applaudo.android.applaudoscodechallenge.ui.utils.UtilStrings
 import com.applaudo.android.applaudoscodechallenge.ui.utils.UtilStrings.Companion.ANIME_DATA_TYPE
 import com.applaudo.android.applaudoscodechallenge.ui.utils.UtilStrings.Companion.MANGA_DATA_TYPE
+import retrofit2.Response
 import java.util.ArrayList
 
 class ApplaudoRepositoryImpl(application: Application) : ApplaudoRepository {
@@ -57,6 +60,16 @@ class ApplaudoRepositoryImpl(application: Application) : ApplaudoRepository {
 
     override fun getGenres(dataType: UtilStrings.Companion.ARTICLE_GENRE_TYPE, articleId: String): MutableLiveData<Genres> {
         return mApplaudoRemoteDataSource.getGenres(dataType, articleId)
+    }
+
+    override suspend fun getAnimeCoroutines(
+        dataType: ANIME_DATA_TYPE,
+        category: String,
+        searchText: String,
+        articleId: String,
+        streamer: String
+    ): Response<AnimeArticleDataUseCase> {
+        return AnimeArticleDataToAnimeArticleDataUseCase(mApplaudoRemoteDataSource.getAnimes(dataType, category, searchText, articleId, streamer))
     }
 
 

@@ -18,6 +18,7 @@ import com.applaudo.android.applaudoscodechallenge.ui.activities.ArticleDetailAc
 import com.applaudo.android.applaudoscodechallenge.ui.activities.MainMenuActivity
 import com.applaudo.android.applaudoscodechallenge.ui.adapters.AnimeArticleRecyclerAdapter
 import com.applaudo.android.applaudoscodechallenge.ui.adapters.StreamerItemAdapter
+import com.applaudo.android.applaudoscodechallenge.ui.model.ArticleDataUI
 import com.applaudo.android.applaudoscodechallenge.ui.utils.UtilStrings
 import kotlinx.android.synthetic.main.fragment_anime.view.*
 
@@ -28,13 +29,13 @@ class AnimeFragment : Fragment(), AnimeArticleRecyclerAdapter.OnArticleItemClick
     private lateinit var mView: View
 
     private lateinit var mAnimeArticleTrendingAdapter: AnimeArticleRecyclerAdapter
-    private var mTrendingArticlesList = arrayListOf<ArticleData>()
+    private var mTrendingArticlesList = arrayListOf<ArticleDataUI>()
 
     private lateinit var mAnimeArticleOnAirAdapter: AnimeArticleRecyclerAdapter
-    private var mOnAirArticlesList = arrayListOf<ArticleData>()
+    private var mOnAirArticlesList = arrayListOf<ArticleDataUI>()
 
     private lateinit var mAnimeArticleCategoryAdapter: AnimeArticleRecyclerAdapter
-    private var mCategoryArticlesList = arrayListOf<ArticleData>()
+    private var mCategoryArticlesList = arrayListOf<ArticleDataUI>()
 
     private lateinit var mStreamerItemAdapter: StreamerItemAdapter
     private var mStreamersList = arrayListOf<StreamerData>()
@@ -109,7 +110,7 @@ class AnimeFragment : Fragment(), AnimeArticleRecyclerAdapter.OnArticleItemClick
         mView.anime_search_view.setOnQueryTextListener(this)
     }
 
-    fun setTrendingAnime(mTrendingAnimeList: ArrayList<ArticleData>) {
+    fun setTrendingAnime(mTrendingAnimeList: ArrayList<ArticleDataUI>) {
         mTrendingArticlesList = mTrendingAnimeList
         mAnimeArticleTrendingAdapter.updateAdapter(mTrendingArticlesList)
         mView.trending_anime_recycler.adapter = mAnimeArticleTrendingAdapter
@@ -117,7 +118,7 @@ class AnimeFragment : Fragment(), AnimeArticleRecyclerAdapter.OnArticleItemClick
         mView.trending_anime_loader_layout.visibility = View.GONE
     }
 
-    fun setOnAirAnime(mOnAirAnimeList: ArrayList<ArticleData>) {
+    fun setOnAirAnime(mOnAirAnimeList: ArrayList<ArticleDataUI>) {
         mOnAirArticlesList = mOnAirAnimeList
         mAnimeArticleOnAirAdapter.updateAdapter(mOnAirArticlesList)
         mView.on_air_anime_recycler.adapter = mAnimeArticleOnAirAdapter
@@ -125,7 +126,7 @@ class AnimeFragment : Fragment(), AnimeArticleRecyclerAdapter.OnArticleItemClick
         mView.onair_anime_loader_layout.visibility = View.GONE
     }
 
-    fun setCategoryAnime(mCategoriesList: ArrayList<ArticleData>) {
+    fun setCategoryAnime(mCategoriesList: ArrayList<ArticleDataUI>) {
         mCategoryArticlesList = mCategoriesList
         mAnimeArticleCategoryAdapter.updateAdapter(mCategoryArticlesList)
         mView.categories_anime_recycler.adapter = mAnimeArticleCategoryAdapter
@@ -232,7 +233,7 @@ class AnimeFragment : Fragment(), AnimeArticleRecyclerAdapter.OnArticleItemClick
         return true
     }
 
-    fun setSearchedAnime(searchAnimeList: ArrayList<ArticleData>) {
+    fun setSearchedAnime(searchAnimeList: ArrayList<ArticleDataUI>) {
         val searchList = ArrayList<SearchArticleData>()
         for (x in 0 until searchAnimeList.size) {
             searchList.add(
@@ -246,7 +247,7 @@ class AnimeFragment : Fragment(), AnimeArticleRecyclerAdapter.OnArticleItemClick
         mSearchFragment.setSearchedData(searchList, UtilStrings.ANIME)
     }
 
-    fun setCategorySearched(ArticleDataList: java.util.ArrayList<ArticleData>) {
+    fun setCategorySearched(ArticleDataList: java.util.ArrayList<ArticleDataUI>) {
         val searchList = ArrayList<SearchArticleData>()
         mView.anime_fragment_container.visibility = View.VISIBLE
         mView.anime_menu_scrollview.visibility = View.GONE

@@ -5,11 +5,12 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.applaudo.android.applaudoscodechallenge.domain.models.ArticleData
+import com.applaudo.android.applaudoscodechallenge.ui.model.ArticleDataUI
 import com.squareup.picasso.Picasso
 import kotlinx.android.synthetic.main.item_anime.view.*
 import java.util.*
 
-class AnimeArticleRecyclerAdapter(private var mArticlesList: ArrayList<ArticleData>?, private val mResourceItemId:Int, listener: OnArticleItemClickListener):
+class AnimeArticleRecyclerAdapter(private var mArticlesList: ArrayList<ArticleDataUI>?, private val mResourceItemId:Int, listener: OnArticleItemClickListener):
     RecyclerView.Adapter<AnimeArticleRecyclerAdapter.ArticleViewHolder>() {
 
     private var itemClickListener: OnArticleItemClickListener = listener
@@ -27,14 +28,14 @@ class AnimeArticleRecyclerAdapter(private var mArticlesList: ArrayList<ArticleDa
         return mArticlesList!!.size
     }
 
-    fun updateAdapter(mArticlesList: ArrayList<ArticleData>?){
+    fun updateAdapter(mArticlesList: ArrayList<ArticleDataUI>?){
         this.mArticlesList = mArticlesList
         notifyDataSetChanged()
     }
 
     class ArticleViewHolder(view: View) : RecyclerView.ViewHolder(view) {
 
-        fun bind(articlesList: ArrayList<ArticleData>?, resourceid: Int,listener: OnArticleItemClickListener) {
+        fun bind(articlesList: ArrayList<ArticleDataUI>?, resourceid: Int,listener: OnArticleItemClickListener) {
             Picasso.get().load(articlesList?.get(position)?.imageUrl).into(itemView.item_article_iv)
             itemView.item_article_title_tv.text = articlesList?.get(position)?.title
 

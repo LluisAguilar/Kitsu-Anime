@@ -3,21 +3,22 @@ package com.applaudo.android.applaudoscodechallenge.ui.utils
 import android.widget.Toast
 import com.applaudo.android.applaudoscodechallenge.R
 import com.applaudo.android.applaudoscodechallenge.data.db.entities.ArticlesFavoriteEntity
-import com.applaudo.android.applaudoscodechallenge.data.retrofit.response.anime.Attributes
 import com.applaudo.android.applaudoscodechallenge.data.retrofit.response.chapters_characters.Names
 import com.applaudo.android.applaudoscodechallenge.data.retrofit.response.chapters_characters.Titles
 import com.applaudo.android.applaudoscodechallenge.domain.models.ArticleData
 import com.applaudo.android.applaudoscodechallenge.domain.models.FavoriteArticleData
+import com.applaudo.android.applaudoscodechallenge.domain.models.anime.Data
+import com.applaudo.android.applaudoscodechallenge.ui.model.ArticleDataUI
 import java.util.ArrayList
 
 class UtilMethods {
 
     companion object {
-        fun getAnimeData(article: List<com.applaudo.android.applaudoscodechallenge.data.retrofit.response.anime.Data>): ArrayList<ArticleData> {
-            val animeDataList = arrayListOf<ArticleData>()
+        fun getAnimeData(article: List<Data>): ArrayList<ArticleDataUI> {
+            val animeDataList = arrayListOf<ArticleDataUI>()
             for (x in 0 until article.size) {
                 animeDataList.add(
-                    ArticleData(
+                    ArticleDataUI(
                         article.get(x).id,
                         article.get(x).attributes?.posterImage?.small,
                         getAnimeTitle(article.get(x).attributes!!),
@@ -54,7 +55,7 @@ class UtilMethods {
 
         }
 
-        fun getAnimeTitle(attributes: Attributes): String {
+        fun getAnimeTitle(attributes: com.applaudo.android.applaudoscodechallenge.domain.models.anime.Attributes): String {
             return if (attributes.titles?.en != null) {
                 attributes.titles.en
             } else if (attributes.titles?.en_us != null) {
@@ -70,11 +71,11 @@ class UtilMethods {
             }
         }
 
-        fun getMangaData(article: List<com.applaudo.android.applaudoscodechallenge.data.retrofit.response.manga.Data>): ArrayList<ArticleData> {
-            val mangaDataList = arrayListOf<ArticleData>()
+        fun getMangaData(article: List<com.applaudo.android.applaudoscodechallenge.data.retrofit.response.manga.Data>): ArrayList<ArticleDataUI> {
+            val mangaDataList = arrayListOf<ArticleDataUI>()
             for (x in 0 until article.size) {
                 mangaDataList.add(
-                    ArticleData(
+                    ArticleDataUI(
                         article.get(x).id,
                         article.get(x).attributes.posterImage?.small,
                         getMangaTitle(article.get(x).attributes),

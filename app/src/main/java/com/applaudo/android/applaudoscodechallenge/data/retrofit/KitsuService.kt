@@ -5,6 +5,7 @@ import com.applaudo.android.applaudoscodechallenge.data.retrofit.response.chapte
 import com.applaudo.android.applaudoscodechallenge.data.retrofit.response.genres.Genres
 import com.applaudo.android.applaudoscodechallenge.data.retrofit.response.manga.MangaArticleData
 import retrofit2.Call
+import retrofit2.Response
 import retrofit2.http.*
 
 interface KitsuService {
@@ -35,4 +36,13 @@ interface KitsuService {
 
     @GET
     fun getGenres(@Url url:String): Call<Genres>
+
+    @GET
+    suspend fun getAnimes(@Url url: String): Response<AnimeArticleData>
+
+    @GET("trending/anime?")
+    suspend fun getTrendingAnimes(): Response<AnimeArticleData>
+
+    @GET("anime?filter[status]=current")
+    suspend fun getAnimeOnAirs(): Response<AnimeArticleData>
 }

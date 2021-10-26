@@ -12,6 +12,7 @@ import com.applaudo.android.applaudoscodechallenge.ui.viewmodels.ArticleViewMode
 import com.applaudo.android.applaudoscodechallenge.ui.fragments.AnimeFragment
 import com.applaudo.android.applaudoscodechallenge.ui.fragments.FavoritesFragment
 import com.applaudo.android.applaudoscodechallenge.ui.fragments.MangaFragment
+import com.applaudo.android.applaudoscodechallenge.ui.model.ArticleDataUI
 import com.applaudo.android.applaudoscodechallenge.ui.utils.UtilMethods
 import com.applaudo.android.applaudoscodechallenge.ui.utils.UtilStrings
 import com.applaudo.android.applaudoscodechallenge.ui.utils.UtilStrings.Companion.categoriesList
@@ -26,13 +27,13 @@ class MainMenuActivity : AppCompatActivity() {
     private lateinit var mMenuPagerAdapter: MenuPagerAdapter
     private lateinit var mArticleViewModel: ArticleViewModel
 
-    private var mTrendingAnimeList = arrayListOf<ArticleData>()
-    private var mCategoryAnimeList = arrayListOf<ArticleData>()
+    private var mTrendingAnimeList = arrayListOf<ArticleDataUI>()
+    private var mCategoryAnimeList = arrayListOf<ArticleDataUI>()
     private var mCategoriesAnimeCount = 0
     private var mCategoriesMangaCount = 0
 
-    private var mTrendingMangaList = arrayListOf<ArticleData>()
-    private var mCategoryMangaList = arrayListOf<ArticleData>()
+    private var mTrendingMangaList = arrayListOf<ArticleDataUI>()
+    private var mCategoryMangaList = arrayListOf<ArticleDataUI>()
 
     private val animeFragment = AnimeFragment.getInstance()
     private val mangaFragment = MangaFragment.getInstance()
@@ -103,7 +104,7 @@ class MainMenuActivity : AppCompatActivity() {
     //Call Trending anime data
     fun getTrendingAnimeData() {
         if (mTrendingAnimeList.size == 0) {
-            mArticleViewModel.getAnime(
+            mArticleViewModel.getAnimeCoroutines(
                 UtilStrings.Companion.ANIME_DATA_TYPE.TRENDING,
                 "",
                 "",
@@ -128,7 +129,7 @@ class MainMenuActivity : AppCompatActivity() {
     }
 
     private fun getOnAirAnimeData() {
-        mArticleViewModel.getAnime(UtilStrings.Companion.ANIME_DATA_TYPE.ONAIR, "", "", "", "")
+        mArticleViewModel.getAnimeCoroutines(UtilStrings.Companion.ANIME_DATA_TYPE.ONAIR, "", "", "", "")
             .observe(this, {
                 if (it.status) {
                     animeFragment.setOnAirAnime(UtilMethods.getAnimeData(it.data!!))
@@ -148,7 +149,7 @@ class MainMenuActivity : AppCompatActivity() {
 
     private fun getAnimeByCategory() {
         try {
-            mArticleViewModel.getAnime(
+            mArticleViewModel.getAnimeCoroutines(
                 UtilStrings.Companion.ANIME_DATA_TYPE.CATEGORIES,
                 categoriesList.get(mCategoriesAnimeCount),
                 "", "", ""
@@ -265,7 +266,7 @@ class MainMenuActivity : AppCompatActivity() {
 
     fun getSearchTextAnime(newText: String?) {
         if (newText != null) {
-            mArticleViewModel.getAnime(
+            mArticleViewModel.getAnimeCoroutines(
                 UtilStrings.Companion.ANIME_DATA_TYPE.SEARCH_TEXT,
                 "",
                 newText,
@@ -301,7 +302,7 @@ class MainMenuActivity : AppCompatActivity() {
     }
 
     fun getSearchAnimeByCategory(category: String) {
-        mArticleViewModel.getAnime(
+        mArticleViewModel.getAnimeCoroutines(
             UtilStrings.Companion.ANIME_DATA_TYPE.CATEGORIES_SEARCH,
             category,
             "", "", ""
@@ -315,7 +316,7 @@ class MainMenuActivity : AppCompatActivity() {
     }
 
     fun getSearchAnimeByStreamer(streamer: String) {
-        mArticleViewModel.getAnime(
+        mArticleViewModel.getAnimeCoroutines(
             UtilStrings.Companion.ANIME_DATA_TYPE.STREAMER,
             "",
             "",

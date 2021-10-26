@@ -16,6 +16,7 @@ import com.applaudo.android.applaudoscodechallenge.domain.models.SearchArticleDa
 import com.applaudo.android.applaudoscodechallenge.ui.activities.ArticleDetailActivity
 import com.applaudo.android.applaudoscodechallenge.ui.activities.MainMenuActivity
 import com.applaudo.android.applaudoscodechallenge.ui.adapters.MangaArticleRecyclerAdapter
+import com.applaudo.android.applaudoscodechallenge.ui.model.ArticleDataUI
 import com.applaudo.android.applaudoscodechallenge.ui.utils.UtilStrings
 import kotlinx.android.synthetic.main.fragment_manga.view.*
 import kotlinx.android.synthetic.main.fragment_manga.view.search_back_arrow
@@ -28,16 +29,16 @@ class MangaFragment : Fragment(), MangaArticleRecyclerAdapter.OnArticleItemClick
     private lateinit var mView : View
 
     private lateinit var mMangaArticleTrendingAdapter: MangaArticleRecyclerAdapter
-    private var mTrendingArticlesList = arrayListOf<ArticleData>()
+    private var mTrendingArticlesList = arrayListOf<ArticleDataUI>()
 
     private lateinit var mMangaArticleOnAirAdapter: MangaArticleRecyclerAdapter
-    private var mOnAirArticlesList = arrayListOf<ArticleData>()
+    private var mOnAirArticlesList = arrayListOf<ArticleDataUI>()
 
     private lateinit var mMangaArticleFinishedAdapter: MangaArticleRecyclerAdapter
-    private var mFinishedArticlesList = arrayListOf<ArticleData>()
+    private var mFinishedArticlesList = arrayListOf<ArticleDataUI>()
 
     private lateinit var mMangaArticleCategoriesAdapter: MangaArticleRecyclerAdapter
-    private var mCategoriesArticlesList = arrayListOf<ArticleData>()
+    private var mCategoriesArticlesList = arrayListOf<ArticleDataUI>()
 
     private lateinit var mFragmentManager: FragmentManager
     private lateinit var mSearchFragment: SearchFragment
@@ -112,7 +113,7 @@ class MangaFragment : Fragment(), MangaArticleRecyclerAdapter.OnArticleItemClick
         mView.manga_menu_scrollview.visibility = View.VISIBLE
     }
 
-    fun setTrendingManga(mTrendingMangaList: ArrayList<ArticleData>) {
+    fun setTrendingManga(mTrendingMangaList: ArrayList<ArticleDataUI>) {
         mTrendingArticlesList = mTrendingMangaList
         mMangaArticleTrendingAdapter.updateAdapter(mTrendingArticlesList)
         mView.trending_manga_recycler.adapter = mMangaArticleTrendingAdapter
@@ -120,7 +121,7 @@ class MangaFragment : Fragment(), MangaArticleRecyclerAdapter.OnArticleItemClick
         mView.trending_manga_loader_layout.visibility = View.GONE
     }
 
-    fun setOnAirManga(onAirArticleData: ArrayList<ArticleData>) {
+    fun setOnAirManga(onAirArticleData: ArrayList<ArticleDataUI>) {
         mOnAirArticlesList = onAirArticleData
         mMangaArticleOnAirAdapter.updateAdapter(mOnAirArticlesList)
         mView.on_air_manga_recycler.adapter = mMangaArticleOnAirAdapter
@@ -128,7 +129,7 @@ class MangaFragment : Fragment(), MangaArticleRecyclerAdapter.OnArticleItemClick
         mView.onair_manga_loader_layout.visibility = View.GONE
     }
 
-    fun setFinishedManga(finishedArticleData: ArrayList<ArticleData>) {
+    fun setFinishedManga(finishedArticleData: ArrayList<ArticleDataUI>) {
         mFinishedArticlesList = finishedArticleData
         mMangaArticleFinishedAdapter.updateAdapter(mFinishedArticlesList)
         mView.finished_manga_recycler.adapter = mMangaArticleFinishedAdapter
@@ -136,7 +137,7 @@ class MangaFragment : Fragment(), MangaArticleRecyclerAdapter.OnArticleItemClick
         mView.finished_manga_loader_layout.visibility = View.GONE
     }
 
-    fun setCategoryAnime(mCategoryMangaList: ArrayList<ArticleData>) {
+    fun setCategoryAnime(mCategoryMangaList: ArrayList<ArticleDataUI>) {
         mFinishedArticlesList = mCategoryMangaList
         mMangaArticleCategoriesAdapter.updateAdapter(mFinishedArticlesList)
         mView.categories_manga_recycler.adapter = mMangaArticleCategoriesAdapter
@@ -196,7 +197,7 @@ class MangaFragment : Fragment(), MangaArticleRecyclerAdapter.OnArticleItemClick
         return true
     }
 
-    fun setSearchedManga(searchMangaList: ArrayList<ArticleData>) {
+    fun setSearchedManga(searchMangaList: ArrayList<ArticleDataUI>) {
         val searchList = ArrayList<SearchArticleData>()
         for (x in 0 until  searchMangaList.size){
             searchList.add(SearchArticleData(searchMangaList.get(x).id, searchMangaList.get(x).title.toString(), searchMangaList.get(x).imageUrl.toString()))
@@ -204,7 +205,7 @@ class MangaFragment : Fragment(), MangaArticleRecyclerAdapter.OnArticleItemClick
         mSearchFragment.setSearchedData(searchList, UtilStrings.MANGA)
     }
 
-    fun setCategorySearched(ArticleDataList: ArrayList<ArticleData>) {
+    fun setCategorySearched(ArticleDataList: ArrayList<ArticleDataUI>) {
         val searchList = ArrayList<SearchArticleData>()
         mView.manga_fragment_container.visibility = View.VISIBLE
         mView.manga_menu_scrollview.visibility = View.GONE

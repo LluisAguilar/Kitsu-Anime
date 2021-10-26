@@ -13,6 +13,7 @@ import com.applaudo.android.applaudoscodechallenge.domain.models.ArticleData
 import com.applaudo.android.applaudoscodechallenge.ui.viewmodels.ArticleViewModel
 import com.applaudo.android.applaudoscodechallenge.ui.alert.CustomAlerts
 import com.applaudo.android.applaudoscodechallenge.ui.fragments.BottomSheetArticleFragment
+import com.applaudo.android.applaudoscodechallenge.ui.model.ArticleDataUI
 import com.applaudo.android.applaudoscodechallenge.ui.utils.UtilMethods
 import com.applaudo.android.applaudoscodechallenge.ui.utils.UtilStrings
 import com.pierfrancescosoffritti.androidyoutubeplayer.core.player.PlayerConstants
@@ -29,8 +30,8 @@ class ArticleDetailActivity : AppCompatActivity() {
     private var mArticleType = UtilStrings.ANIME
     private var mArticleId = "0"
     private lateinit var mAlert: CustomAlerts
-    private lateinit var mAnimeData: ArticleData
-    private lateinit var mMangaData: ArticleData
+    private lateinit var mAnimeData: ArticleDataUI
+    private lateinit var mMangaData: ArticleDataUI
     private var mFavorite = false
     private lateinit var bottomSheetArticleFragment: BottomSheetArticleFragment
 
@@ -48,7 +49,7 @@ class ArticleDetailActivity : AppCompatActivity() {
         if (mArticleType == UtilStrings.MANGA) {
             getMangaData()
         } else {
-            getAnimeData()
+            getAnimeCoroutinesData()
         }
 
         detail_back_arrow.setOnClickListener {
@@ -191,9 +192,9 @@ class ArticleDetailActivity : AppCompatActivity() {
         })
     }
 
-    private fun getAnimeData() {
+    private fun getAnimeCoroutinesData() {
         mAlert.startAlertProgress("")
-        mArticleViewModel.getAnime(
+        mArticleViewModel.getAnimeCoroutines(
             UtilStrings.Companion.ANIME_DATA_TYPE.INDIVIDUAL,
             "",
             "",
@@ -211,7 +212,7 @@ class ArticleDetailActivity : AppCompatActivity() {
         })
     }
 
-    private fun isFavorite(articleData: ArticleData) {
+    private fun isFavorite(articleData: ArticleDataUI) {
         mArticleViewModel.getFavorites().observe(this, {
             val articlesList = UtilMethods.favoriteArticleEntityToFavoriteArticleModel(it)
             if (articlesList.size > 0) {
@@ -232,7 +233,7 @@ class ArticleDetailActivity : AppCompatActivity() {
         })
     }
 
-    private fun setValuesInView(articleData: ArticleData) {
+    private fun setValuesInView(articleData: ArticleDataUI) {
         Picasso.get().load(articleData.imageUrl).into(article_detail_iv)
         article_title_tv.text = articleData.title
         article_canonical_title_tv.text = articleData.canonicalTitle
