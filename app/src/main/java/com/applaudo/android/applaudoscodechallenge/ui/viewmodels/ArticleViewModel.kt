@@ -7,12 +7,9 @@ import androidx.lifecycle.MutableLiveData
 import com.applaudo.android.applaudoscodechallenge.data.db.entities.ArticlesFavoriteEntity
 import com.applaudo.android.applaudoscodechallenge.data.repositories.ApplaudoRepositoryImpl
 import com.applaudo.android.applaudoscodechallenge.data.retrofit.response.anime.AnimeArticleData
-import com.applaudo.android.applaudoscodechallenge.data.retrofit.response.anime.Error
-import com.applaudo.android.applaudoscodechallenge.data.retrofit.response.anime.KitsuError
 import com.applaudo.android.applaudoscodechallenge.data.retrofit.response.chapters_characters.ChaptersCharacters
 import com.applaudo.android.applaudoscodechallenge.data.retrofit.response.genres.Genres
 import com.applaudo.android.applaudoscodechallenge.data.retrofit.response.manga.MangaArticleData
-import com.applaudo.android.applaudoscodechallenge.domain.models.ArticleData
 import com.applaudo.android.applaudoscodechallenge.domain.models.StreamerData
 import com.applaudo.android.applaudoscodechallenge.domain.models.anime.AnimeArticleDataUseCase
 import com.applaudo.android.applaudoscodechallenge.domain.usecases.GetAnimeArticleCleanUseCase
@@ -74,7 +71,7 @@ class ArticleViewModel(application: Application) : AndroidViewModel(application)
 
         val responseData = MutableLiveData<AnimeArticleDataUseCase>()
         animeJob = CoroutineScope(Dispatchers.IO).launch {
-            val response = mGetAnimeArticleCleanUseCase.getAnimeCoroutines(dataType, category, searchText, articleId, streamer)
+            val response = mGetAnimeArticleCleanUseCase.getAnimeCoroutines(animeDataToAnimeDataDomain(dataType), category, searchText, articleId, streamer)
             if (response.isSuccessful){
 
                 val articleData = AnimeArticleDataUseCase(

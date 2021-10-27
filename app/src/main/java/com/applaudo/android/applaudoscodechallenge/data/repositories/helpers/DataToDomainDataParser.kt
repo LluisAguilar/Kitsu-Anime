@@ -2,6 +2,9 @@ package com.applaudo.android.applaudoscodechallenge.data.repositories.helpers
 
 import com.applaudo.android.applaudoscodechallenge.data.retrofit.response.anime.AnimeArticleData
 import com.applaudo.android.applaudoscodechallenge.domain.models.anime.*
+import com.applaudo.android.applaudoscodechallenge.domain.utils.UtilStringsData
+import com.applaudo.android.applaudoscodechallenge.domain.utils.UtilStringsDomain
+import com.applaudo.android.applaudoscodechallenge.ui.utils.UtilStrings
 import retrofit2.Response
 
 
@@ -154,4 +157,42 @@ private fun getErrorList(errorsList: com.applaudo.android.applaudoscodechallenge
         }
     }
     return errorsListUseCase
+}
+
+fun animeDataDomainToAnimeData(dataTypeUi: UtilStringsDomain.Companion.ANIME_DATA_TYPE): UtilStringsData.Companion.ANIME_DATA_TYPE {
+    var domainType: UtilStringsData.Companion.ANIME_DATA_TYPE? = UtilStringsData.Companion.ANIME_DATA_TYPE.TRENDING
+
+    when(dataTypeUi){
+
+        UtilStringsDomain.Companion.ANIME_DATA_TYPE.TRENDING -> {
+            domainType = UtilStringsData.Companion.ANIME_DATA_TYPE.TRENDING
+        }
+
+        UtilStringsDomain.Companion.ANIME_DATA_TYPE.ONAIR -> {
+            domainType = UtilStringsData.Companion.ANIME_DATA_TYPE.ONAIR
+        }
+
+        UtilStringsDomain.Companion.ANIME_DATA_TYPE.CATEGORIES -> {
+            domainType = UtilStringsData.Companion.ANIME_DATA_TYPE.CATEGORIES
+        }
+
+        UtilStringsDomain.Companion.ANIME_DATA_TYPE.CATEGORIES_SEARCH -> {
+            domainType = UtilStringsData.Companion.ANIME_DATA_TYPE.CATEGORIES_SEARCH
+        }
+
+        UtilStringsDomain.Companion.ANIME_DATA_TYPE.SEARCH_TEXT -> {
+            domainType = UtilStringsData.Companion.ANIME_DATA_TYPE.SEARCH_TEXT
+        }
+
+        UtilStringsDomain.Companion.ANIME_DATA_TYPE.INDIVIDUAL -> {
+            domainType = UtilStringsData.Companion.ANIME_DATA_TYPE.INDIVIDUAL
+        }
+
+        UtilStringsDomain.Companion.ANIME_DATA_TYPE.STREAMER -> {
+            domainType = UtilStringsData.Companion.ANIME_DATA_TYPE.STREAMER
+        }
+
+    }
+
+    return domainType
 }

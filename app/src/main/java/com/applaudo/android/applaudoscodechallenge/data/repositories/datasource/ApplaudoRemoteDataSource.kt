@@ -8,6 +8,7 @@ import com.applaudo.android.applaudoscodechallenge.data.retrofit.response.chapte
 import com.applaudo.android.applaudoscodechallenge.data.retrofit.response.genres.Genres
 import com.applaudo.android.applaudoscodechallenge.data.retrofit.response.manga.MangaArticleData
 import com.applaudo.android.applaudoscodechallenge.domain.models.StreamerData
+import com.applaudo.android.applaudoscodechallenge.domain.utils.UtilStringsData
 import com.applaudo.android.applaudoscodechallenge.ui.utils.UtilMethods
 import com.applaudo.android.applaudoscodechallenge.ui.utils.UtilStrings
 import com.applaudo.android.applaudoscodechallenge.ui.utils.UtilStrings.Companion.ANIME_DATA_TYPE
@@ -90,31 +91,31 @@ class ApplaudoRemoteDataSource() {
     }
 
     suspend fun getAnimes(
-        dataType: ANIME_DATA_TYPE,
+        dataType: UtilStringsData.Companion.ANIME_DATA_TYPE,
         category: String,
         searchText: String,
         articleId: String,
         streamer: String
     ) = when (dataType) {
-        ANIME_DATA_TYPE.TRENDING -> {
+        UtilStringsData.Companion.ANIME_DATA_TYPE.TRENDING -> {
             mKitsuService.getTrendingAnimes()
         }
-        ANIME_DATA_TYPE.ONAIR -> {
+        UtilStringsData.Companion.ANIME_DATA_TYPE.ONAIR -> {
             mKitsuService.getAnimeOnAirs()
         }
-        ANIME_DATA_TYPE.CATEGORIES -> {
+        UtilStringsData.Companion.ANIME_DATA_TYPE.CATEGORIES -> {
             mKitsuService.getAnimes(UtilStrings.ANIME_CATEGORIES_URL + category)
         }
-        ANIME_DATA_TYPE.SEARCH_TEXT -> {
+        UtilStringsData.Companion.ANIME_DATA_TYPE.SEARCH_TEXT -> {
             mKitsuService.getAnimes(UtilStrings.ANIME_TEXT_SEARCH_URL + searchText)
         }
-        ANIME_DATA_TYPE.CATEGORIES_SEARCH -> {
+        UtilStringsData.Companion.ANIME_DATA_TYPE.CATEGORIES_SEARCH -> {
             mKitsuService.getAnimes(UtilStrings.ANIME_CATEGORY_TEXT_SEARCH_URL + category)
         }
-        ANIME_DATA_TYPE.INDIVIDUAL -> {
+        UtilStringsData.Companion.ANIME_DATA_TYPE.INDIVIDUAL -> {
             mKitsuService.getAnimes(UtilStrings.ANIME_BY_ID_URL + articleId)
         }
-        ANIME_DATA_TYPE.STREAMER -> {
+        UtilStringsData.Companion.ANIME_DATA_TYPE.STREAMER -> {
             mKitsuService.getAnimes(UtilStrings.ANIME_BY_STREAMER_URL + streamer)
         }
 

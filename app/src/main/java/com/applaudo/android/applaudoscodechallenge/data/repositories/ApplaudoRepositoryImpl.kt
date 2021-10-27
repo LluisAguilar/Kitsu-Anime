@@ -7,12 +7,14 @@ import com.applaudo.android.applaudoscodechallenge.data.db.entities.ArticlesFavo
 import com.applaudo.android.applaudoscodechallenge.data.repositories.datasource.ApplaudoLocalDataSource
 import com.applaudo.android.applaudoscodechallenge.data.repositories.datasource.ApplaudoRemoteDataSource
 import com.applaudo.android.applaudoscodechallenge.data.repositories.helpers.AnimeArticleDataToAnimeArticleDataUseCase
+import com.applaudo.android.applaudoscodechallenge.data.repositories.helpers.animeDataDomainToAnimeData
 import com.applaudo.android.applaudoscodechallenge.data.retrofit.response.anime.AnimeArticleData
 import com.applaudo.android.applaudoscodechallenge.data.retrofit.response.chapters_characters.ChaptersCharacters
 import com.applaudo.android.applaudoscodechallenge.data.retrofit.response.genres.Genres
 import com.applaudo.android.applaudoscodechallenge.data.retrofit.response.manga.MangaArticleData
 import com.applaudo.android.applaudoscodechallenge.domain.models.StreamerData
 import com.applaudo.android.applaudoscodechallenge.domain.models.anime.AnimeArticleDataUseCase
+import com.applaudo.android.applaudoscodechallenge.domain.utils.UtilStringsDomain
 import com.applaudo.android.applaudoscodechallenge.ui.utils.UtilStrings
 import com.applaudo.android.applaudoscodechallenge.ui.utils.UtilStrings.Companion.ANIME_DATA_TYPE
 import com.applaudo.android.applaudoscodechallenge.ui.utils.UtilStrings.Companion.MANGA_DATA_TYPE
@@ -63,13 +65,13 @@ class ApplaudoRepositoryImpl(application: Application) : ApplaudoRepository {
     }
 
     override suspend fun getAnimeCoroutines(
-        dataType: ANIME_DATA_TYPE,
+        domainDataType: UtilStringsDomain.Companion.ANIME_DATA_TYPE,
         category: String,
         searchText: String,
         articleId: String,
         streamer: String
     ): Response<AnimeArticleDataUseCase> {
-        return AnimeArticleDataToAnimeArticleDataUseCase(mApplaudoRemoteDataSource.getAnimes(dataType, category, searchText, articleId, streamer))
+        return AnimeArticleDataToAnimeArticleDataUseCase(mApplaudoRemoteDataSource.getAnimes(animeDataDomainToAnimeData(domainDataType), category, searchText, articleId, streamer))
     }
 
 
